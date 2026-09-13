@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Spoke Workflow Meta-Check (INV-6)
+# Spoke Workflow Meta-Check (INV-8)
 # =============================================================================
 # Verifies that a spoke repository's .github/workflows/ci.yml calls ALL
 # required org reusable workflows. A spoke cannot silently skip a gate.
@@ -55,10 +55,10 @@ echo ""
 if [ "$MISSING" -gt 0 ]; then
   echo "FAIL: $MISSING required workflow(s) missing from $CI_FILE"
   echo ""
-  echo "All spokes must call these org reusable workflows (INV-6)."
+  echo "All spokes must call these org reusable workflows (INV-8)."
   echo "A spoke cannot silently skip a gate."
   exit 1
 fi
 
-echo "PASS: all required workflows present (INV-6 clean)."
+echo "PASS: all required workflows present (INV-8 clean)."
 exit 0

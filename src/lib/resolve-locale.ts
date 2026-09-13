@@ -44,7 +44,7 @@ export function resolveLocale(text: LocalizedText, locale: SupportedLocale): str
  * Build hreflang alternates for all supported locales.
  */
 export function buildHreflang(
-  baseUrl: string,
+  _baseUrl: string,
   path: string,
 ): Array<{ locale: SupportedLocale; url: string }> {
   return SUPPORTED_LOCALES.map((locale) => ({

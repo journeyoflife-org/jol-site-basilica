@@ -25,11 +25,34 @@
  *       @jol-hub/seed-data fixture when packages are published.
  */
 import fixture from '@/fixtures/tenant.json';
-import { resolveLocale, buildHreflang, buildCanonical, type SupportedLocale } from '@/lib/resolve-locale';
+import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
 import { buildChurchEntity, buildMassEvent, buildBreadcrumb } from '@/lib/json-ld';
 import { trackEvent } from '@/lib/analytics';
 
 const BASE_URL = 'https://basilica-vilnius-cathedral.gyvenimo-kelias.lt';
+
+/**
+ * Parse a free-form address string into structured PostalAddress fields.
+ * Expected input: "Katedros a. 2, 01143 Vilnius, Lithuania".
+ */
+function parseAddress(full: string): {
+  streetAddress: string;
+  postalCode: string;
+  addressLocality: string;
+  addressCountry: string;
+} {
+  const parts = full.split(',').map((s) => s.trim());
+  const streetAddress = parts[0] ?? '';
+  const postalAndCity = parts[1] ?? '';
+  const country = parts[2] ?? '';
+  const postalMatch = postalAndCity.match(/^(\d{5})\s+(.+)$/);
+  return {
+    streetAddress,
+    postalCode: postalMatch?.[1] ?? '',
+    addressLocality: postalMatch?.[2] ?? '',
+    addressCountry: country === 'Lithuania' ? 'LT' : country,
+  };
+}
 
 interface ContentBlock {
   type: string;
@@ -50,12 +73,12 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
               {resolveLocale({ lt: 'Mažoji bazilika', en: 'Minor Basilica', ru: 'Малая базилика' }, locale)}
             </span>
             <h1 className="text-4xl font-bold tracking-tight">{h(block.heading)}</h1>
-            {block.subheading && (
+            {(block.subheading as { lt: string; en?: string; ru?: string } | undefined) && (
               <p className="mt-4 text-lg text-gray-600">
                 {h(block.subheading as { lt: string; en?: string; ru?: string })}
               </p>
             )}
-            {block.body && (
+            {(block.body as { lt: string; en?: string; ru?: string } | undefined) && (
               <p className="mt-6 text-base text-gray-700">
                 {h(block.body as { lt: string; en?: string; ru?: string })}
               </p>
@@ -79,7 +102,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                     <span className="font-medium">{locale === 'en' && mass.dayEn ? mass.dayEn as string : mass.day as string}</span>
                     <span className="ml-3 text-gray-600">{mass.time as string}</span>
                   </div>
-                  {mass.notes && (
+                  {(mass.notes as { lt: string; en?: string; ru?: string } | undefined) && (
                     <span className="text-sm text-gray-500">
                       {h(mass.notes as { lt: string; en?: string; ru?: string })}
                     </span>
@@ -117,18 +140,18 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
               {(block.sacraments as Array<Record<string, unknown>>).map((sac, i) => (
                 <div key={i} className="p-4 bg-white rounded shadow-sm">
                   <h3 className="font-medium text-lg">{h(sac.name as { lt: string; en?: string; ru?: string })}</h3>
-                  {sac.description && (
+                  {(sac.description as { lt: string; en?: string; ru?: string } | undefined) && (
                     <p className="mt-1 text-gray-600">
                       {h(sac.description as { lt: string; en?: string; ru?: string })}
                     </p>
                   )}
-                  {sac.schedule && (
+                  {(sac.schedule as { lt: string; en?: string; ru?: string } | undefined) && (
                     <p className="mt-1 text-sm text-gray-500">
                       {resolveLocale({ lt: 'Tvarkaraštis: ', en: 'Schedule: ', ru: 'Расписание: ' }, locale)}
                       {h(sac.schedule as { lt: string; en?: string; ru?: string })}
                     </p>
                   )}
-                  {sac.requirements && (
+                  {(sac.requirements as { lt: string; en?: string; ru?: string } | undefined) && (
                     <p className="mt-1 text-sm text-gray-500">
                       {resolveLocale({ lt: 'Reikalavimai: ', en: 'Requirements: ', ru: 'Требования: ' }, locale)}
                       {h(sac.requirements as { lt: string; en?: string; ru?: string })}
@@ -166,12 +189,12 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
               {(block.roles as Array<Record<string, unknown>>).map((role, i) => (
                 <div key={i} className="p-4 bg-white rounded shadow-sm">
                   <h3 className="font-medium text-lg">{h(role.role as { lt: string; en?: string; ru?: string })}</h3>
-                  {role.description && (
+                  {(role.description as { lt: string; en?: string; ru?: string } | undefined) && (
                     <p className="mt-1 text-gray-600">
                       {h(role.description as { lt: string; en?: string; ru?: string })}
                     </p>
                   )}
-                  {role.contact && (
+                  {(role.contact as string | undefined) && (
                     <a href={`mailto:${role.contact}`} className="mt-2 text-sm text-amber-600 hover:underline">
                       {role.contact as string}
                     </a>
@@ -199,7 +222,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                     className="w-full h-48 object-cover"
                     loading="lazy"
                   />
-                  {img.caption && (
+                  {(img.caption as { lt: string; en?: string; ru?: string } | undefined) && (
                     <figcaption className="mt-2 text-sm text-gray-500 text-center">
                       {h(img.caption as { lt: string; en?: string; ru?: string })}
                     </figcaption>
@@ -226,7 +249,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                 </div>
               ))}
             </div>
-            {block.admission && (
+            {(block.admission as { lt: string; en?: string; ru?: string } | undefined) && (
               <p className="mt-4 text-sm text-gray-600">
                 {h(block.admission as { lt: string; en?: string; ru?: string })}
               </p>
@@ -245,7 +268,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                 {resolveLocale({ lt: 'Koordinatės', en: 'Coordinates', ru: 'Координаты' }, locale)}:
                 {' '}{block.lat as number}, {block.lng as number}
               </p>
-              {block.directionsUrl && (
+              {(block.directionsUrl as string | undefined) && (
                 <a
                   href={block.directionsUrl as string}
                   target="_blank"
@@ -293,18 +316,15 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
 export default function Home() {
   const locale: SupportedLocale = 'lt';
   const homePage = fixture.pages[0];
+  if (!homePage) return null;
   const blocks = homePage.contentBlocks as ContentBlock[];
 
   // JSON-LD structured data
+  const address = parseAddress(fixture.identity?.address ?? '');
   const churchJsonLd = buildChurchEntity({
     name: resolveLocale(fixture.name, locale),
     url: BASE_URL,
-    address: {
-      streetAddress: 'Katedros a. 1',
-      addressLocality: 'Vilnius',
-      postalCode: '01143',
-      addressCountry: 'LT',
-    },
+    address,
     geo: { latitude: 54.6862, longitude: 25.2903 },
     telephone: fixture.identity?.phone,
     description: resolveLocale(fixture.tagline, locale),
@@ -317,16 +337,39 @@ export default function Home() {
     { name: resolveLocale({ lt: 'Pradžia', en: 'Home', ru: 'Главная' }, locale), url: BASE_URL },
   ]);
 
-  const hreflang = buildHreflang(BASE_URL, '/');
-  const canonical = buildCanonical(BASE_URL, locale, '/');
+  // Mass schedule → Event JSON-LD (one event per scheduled Mass).
+  const massBlock = blocks.find((b) => b.type === 'massSchedule');
+  const massEvents = massBlock
+    ? (
+        (massBlock.masses as Array<{
+          day: string;
+          dayEn?: string;
+          time: string;
+          startDate: string;
+        }>) || []
+      ).map((m) =>
+        buildMassEvent({
+          name: `Šv. Mišios — ${m.dayEn ?? m.day} ${m.time}`,
+          startDate: m.startDate,
+          location: { name: resolveLocale(fixture.name, locale), address },
+        }),
+      )
+    : [];
+
+  // hreflang: only the served locale (lt at /). Alternates for /en, /ru
+  // would advertise routes that don't exist in this spoke — Google treats
+  // invalid hreflang targets as a signal to drop the mapping entirely.
+  const canonical = `${BASE_URL}/`;
 
   return (
     <>
       {/* SEO: hreflang + canonical */}
       <link rel="canonical" href={canonical} />
-      {hreflang.map((alt) => (
-        <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={`${BASE_URL}${alt.url}`} />
-      ))}
+      {/* hreflang: only the served locale + x-default. /en and /ru are
+          not implemented in this spoke; advertising them would advertise
+          routes that 404. */}
+      <link rel="alternate" hrefLang="x-default" href={canonical} />
+      <link rel="alternate" hrefLang="lt" href={canonical} />
 
       {/* JSON-LD structured data */}
       <script
@@ -337,6 +380,17 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {massEvents.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': massEvents,
+            }),
+          }}
+        />
+      )}
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="px-4 py-3 bg-white border-b">

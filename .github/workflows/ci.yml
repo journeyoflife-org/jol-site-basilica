@@ -1,16 +1,23 @@
 # =============================================================================
-# Spoke CI Pipeline — calls org reusable workflows (INV-6)
+# Spoke CI Pipeline — calls org reusable workflows (INV-8)
 # =============================================================================
 # This file is ~15 lines of actual logic — the gate logic lives in
 # reusable workflows at journeyoflife-org/.github. A spoke CANNOT
-# silently skip a gate (INV-6).
+# silently skip a gate (INV-8).
 #
 # Required workflows (meta-check verifies these are present):
 #   1. frontend-build     — build + type-check + lint
-#   2. frontend-test      — unit + a11y + security
+#   2. frontend-test      — unit + security
 #   3. security-scan      — secrets + SCA + drift
 #   4. payment-boundary   — INV-3 PSP boundary (ADR-009 Model A)
-#   5. compliance-check   — INV-7 theme literals + perf budgets
+#   5. compliance-check   — INV-5 theme literals
+#
+# The a11y and performance gates are LOCAL jobs (bottom of this file), not
+# reusable-workflow responsibilities. They were previously declared in
+# package.json, referenced by nothing, and therefore never executed. They are
+# written against Node stdlib only and run via `npx tsx` without installing
+# dependencies, so they report real results even while BF-5 (packages not
+# published to GitHub Packages) blocks `pnpm install` in this repository.
 # =============================================================================
 
 name: CI
@@ -62,3 +69,86 @@ jobs:
 
       - name: Run satellite kit drift checker
         run: python3 scripts/sops-validate.py
+
+  # --- Workflow meta-check (local, not reusable) ---
+  # INV-8: this job is what makes "a spoke cannot silently skip a gate"
+  # enforceable rather than aspirational. It was previously present in
+  # scripts/ but called by nothing, so the meta-check itself never ran.
+  workflow-completeness:
+    name: Workflow Completeness (INV-8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify all required org reusable workflows are called
+        run: bash scripts/check-workflow-completeness.sh
+
+  # --- Accessibility, static layer (INV-10) ---
+  # Stdlib-only: no pnpm install, so this gate yields real results while BF-5
+  # is open. It proves the source-level preconditions of WCAG 2.2 AA and
+  # self-tests its own detection logic on every run. Contrast, focus order and
+  # ARIA semantics need a rendered DOM and belong to the e2e job, not here.
+  a11y-static:
+    name: Accessibility, static (INV-10 / WCAG 2.2 AA)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run static a11y gate
+        run: npx --yes tsx@4 scripts/check-a11y-pages.ts
+
+  # --- Content integrity (tenant fixture + source invariants) ---
+  # Stdlib-only: scans fixture JSON for review markers, verifies local asset
+  # paths exist under public/, checks that every block type is handled by the
+  # renderer, and flags hardcoded tenant data in source that contradicts the
+  # fixture. Self-tests on every run.
+  content-integrity:
+    name: Content integrity (fixture + source invariants)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run content-integrity gate
+        run: npx --yes tsx@4 scripts/check-content-integrity.ts
+
+  # --- Performance budgets, measured on the production bundle (INV-10) ---
+  # This job cannot go green until BF-5 lands, because `pnpm install` needs the
+  # @jol-hub/* packages in GitHub Packages. It is intentionally NOT marked
+  # continue-on-error and has no skip switch: a performance gate that passes on
+  # an absent build is the defect this job was written to remove.
+  perf-budget:
+    name: Performance budgets (post-build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Production build
+        run: pnpm build
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Check budgets against gzipped output
+        run: npx --yes tsx@4 scripts/check-perf-budget.ts

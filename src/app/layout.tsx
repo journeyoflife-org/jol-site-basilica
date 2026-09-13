@@ -13,6 +13,14 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Basilica of Vilnius Cathedral | Journey of Life',
   description: 'Basilica of Vilnius Cathedral — Journey of Life Catholic Church platform',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
 };
 
 export default function RootLayout({

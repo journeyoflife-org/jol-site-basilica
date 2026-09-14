@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/demo-environment-deployment-assessment.md` — demo environment deployment
+  assessment (Prompt 15). 7 findings (3 HIGH, 2 MEDIUM, 2 LOW). No Dockerfile, no
+  deploy workflow, no deploy/rollback scripts. 3-layer indexing protection complete
+  (meta + header + robots.txt). Vercel recommended for demo (2-3 hours). Production
+  requires 12-15 hours additional work. Full report:
+  docs/drafts/demo-environment-deployment-assessment.md.
 - `docs/drafts/template-renderer-packaging-assessment.md` — TemplateRenderer packaging
   assessment (Prompt 14). 6 findings (2 HIGH, 3 MEDIUM, 1 LOW). Hub TemplateRenderer
   is private app (not package), migration plan documented but not implemented.
@@ -148,6 +154,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 15 demo environment deployment
+  assessment complete — 7 findings (3 HIGH, 2 MEDIUM, 2 LOW). No Dockerfile, no
+  deploy workflow. 3-layer indexing protection complete. Demo READY (2-3 hours on
+  Vercel). Production NOT READY (12-15 hours additional work). Full report:
+  docs/drafts/demo-environment-deployment-assessment.md.
 - Professional opinion updated (2026-09-14): Prompt 14 TemplateRenderer packaging
   assessment complete — 6 findings (2 HIGH, 3 MEDIUM, 1 LOW). Hub TemplateRenderer
   is private app, migration plan not implemented. Spoke has 247 lines duplicated.

@@ -495,6 +495,46 @@ Total effort: 5-6 hours. Risk is low because rollback is simple (revert spoke's 
 
 The spoke's SEO layer (JSON-LD, hreflang, canonical) and analytics (TrackedLink) must remain spoke-local — they are not part of the renderer.
 
+## Prompt 15 — Demo Environment Deployment Assessment (2026-09-14)
+
+Demo environment deployment assessment completed. 7 findings identified (3 HIGH, 2 MEDIUM, 2 LOW).
+
+**Full report:** `docs/drafts/demo-environment-deployment-assessment.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| HIGH | 3 | No Dockerfile, no deploy workflow, no deploy/rollback scripts |
+| MEDIUM | 2 | No demo hostname allocated, no environment-specific config |
+| LOW | 2 | No health check endpoint, no performance monitoring |
+
+### What Works Well
+
+- **3-layer indexing protection:** Meta robots + X-Robots-Tag header + robots.txt — demo will NOT be indexed
+- **Environment-aware canonicals:** `NEXT_PUBLIC_SITE_URL` controls canonical URL (demo ≠ production)
+- **Build process:** `pnpm build` exits 0, 7 static pages
+- **CI pipeline:** 10 jobs including all gates
+
+### What Needs Attention
+
+1. **Deploy to Vercel (demo)** — 2-3 hours, fastest path to demo (recommended)
+2. **Create Dockerfile (production)** — 2 hours, required for Proxmox
+3. **Create deploy/rollback scripts (production)** — 1.5 hours
+4. **Create deploy workflow (production)** — 2 hours, GitHub Actions → Proxmox
+
+### Deployment Readiness
+
+**Demo environment:** READY (2-3 hours to deploy on Vercel)
+**Production environment:** NOT READY (12-15 hours additional work required)
+
+Production deployment should begin only after:
+- Demo environment is live and validated
+- Legal review of stub pages is complete
+- Content approval workflow is established
+- TemplateRenderer packaging is complete
+- Parish sign-off is obtained
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -540,6 +580,10 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Payment boundary (CI):        PASS — dual-layered enforcement (local + CI + INV-8)
   - TemplateRenderer (hub):       FAIL — private app, not package, migration not implemented
   - TemplateRenderer (spoke):     FAIL — 247 lines duplicated, should consume hub package
+  - Demo deployment (indexing):   PASS — 3-layer noindex defense (meta + header + robots.txt)
+  - Demo deployment (canonical):  PASS — NEXT_PUBLIC_SITE_URL controls canonical (env-aware)
+  - Demo deployment (infra):      FAIL — no Dockerfile, no deploy workflow, no deploy scripts
+  - Production deployment:        FAIL — 12-15 hours additional work required
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -620,6 +664,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 14: TemplateRenderer packaging assessment complete — 6 findings, 2 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 13: payment boundary audit complete)
-**Next review:** After Prompt 15 (demo environment deployment)
+**Updated:** 2026-09-14 (Prompt 15: demo environment deployment assessment complete — 7 findings, 3 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 14: TemplateRenderer packaging assessment complete)
+**Next review:** After Prompt 16 (legal review of stub pages)

@@ -210,6 +210,37 @@ Home
 - Translation backlog (408 `ru` markers) may require disabling `ru` locale
 - Legal review pending for privacy/cookies/accessibility pages
 
+## Prompt 1 — Public Indexing Protection (2026-09-14)
+
+Audit and remediation of all indexing controls completed. **Verdict: defense-in-depth achieved.**
+
+### Changes Applied
+
+| ID | Change | File | Invariant |
+|---|---|---|---|
+| G1 | `BASE_URL` now reads `NEXT_PUBLIC_SITE_URL` env var (fallback `localhost:3000`) | `src/app/page.tsx` | Canonical URL on demo/staging never points to production |
+| G3 | `X-Robots-Tag: noindex, nofollow` HTTP header added | `next.config.js` | INV-SEO-01: covers non-HTML resources (SVGs, JSON) |
+| G4 | Static `public/robots.txt` with `Disallow: /` | `public/robots.txt` | INV-SEO-02: explicit crawler block |
+| G6 | `buildCanonical()` and `buildHreflang()` marked as reserved for Prompt 7+ | `src/lib/resolve-locale.ts` | Dead code documented |
+
+### Additional Fix
+
+- **RSC boundary defect** in `mapLocation` block: `onClick` handler on `<a>` tag cannot serialize across the Server Component boundary. Fixed by extracting `TrackedLink` client component (`src/components/tracked-link.tsx`). Build now exits 0.
+
+### Three-Layer Indexing Protection
+
+| Layer | Mechanism | Scope |
+|---|---|---|
+| 1 | `<meta name="robots" content="noindex, nofollow">` | HTML pages (via layout.tsx) |
+| 2 | `X-Robots-Tag: noindex, nofollow` HTTP header | All responses including non-HTML |
+| 3 | `robots.txt` with `Disallow: /` | All crawlers at the protocol level |
+
+### Verification
+
+- Type-check: 0 errors
+- Tests: 46/46 passed (3 suites)
+- Build: exit 0, 7/7 static pages generated
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -224,6 +255,7 @@ Local fixture-level gates:     PASSING
   - secrets:                    PASS
   - workflow completeness:      PASS
   - unit tests:                 46/46 pass
+  - build:                      EXIT 0 (7/7 pages)
 
 Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Legal review:               Not done
@@ -232,7 +264,9 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
   - Spoke SEO deduplication:    DONE — consumes @journeyoflife-org/seo@1.1.0
   - Tenant coverage:            1 of 8 basilicas
-  - Demo noindex:               DONE — both spoke and hub renderer
+  - Demo noindex:               DONE — 3-layer defense-in-depth (meta + header + robots.txt)
+  - Environment-aware canonical: DONE — NEXT_PUBLIC_SITE_URL (no hardcoded production URL)
+  - RSC boundary defects:       FIXED — TrackedLink client component extracted
   - Hub fixture markers:        408 ru translations pending
   - Donation flow:              Not implemented
   - Content metadata:           No source/verifier/approval tracking
@@ -305,6 +339,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Frontend scope analysis + P1 governance items completed)
-**Prior assessment:** 2026-09-14 (P1 governance items completed)
-**Next review:** After Phase 1 implementation (foundation)
+**Updated:** 2026-09-14 (Prompt 1: indexing protection audit + remediation complete)
+**Prior assessment:** 2026-09-14 (Frontend scope analysis + P1 governance items completed)
+**Next review:** After Prompt 2 (demo environment deployment)

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `public/robots.txt` — static `Disallow: /` for all crawlers (INV-SEO-02).
+  Defense-in-depth layer alongside layout.tsx meta tag and X-Robots-Tag header.
+  Replace with `app/robots.ts` dynamic route when ready for production indexing.
+- `src/components/tracked-link.tsx` — Client Component wrapper for analytics-
+  tracked links. Extracted to resolve RSC boundary defect where `onClick`
+  handler on `<a>` tag could not serialize across the Server Component boundary.
 - `docs/drafts/professional-opinion-phase2-plan-review.md` — review of the 21-prompt
   execution plan (Prompts 0-20). Re-sequenced to reflect completed items:
   BF-5 resolved (12 packages published), canonical renderer decided (hub
@@ -79,6 +85,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `src/app/page.tsx`: `BASE_URL` now reads `NEXT_PUBLIC_SITE_URL` environment
+  variable with `http://localhost:3000` fallback, instead of being hardcoded to
+  the production URL. Prevents canonical URL leakage when demo/staging
+  environments serve the spoke.
+- `next.config.js`: added `X-Robots-Tag: noindex, nofollow` HTTP header
+  (INV-SEO-01). Covers non-HTML resources (SVGs, JSON) and provides a safety
+  net if layout.tsx metadata is accidentally removed.
+- `src/lib/resolve-locale.ts`: `buildCanonical()` and `buildHreflang()` marked
+  as reserved for multi-locale routes (Prompt 7+) with documentation comments.
 - `check-secrets` now invokes `scripts/check-secrets.sh`, the file the
   satellite kit actually ships, instead of a nonexistent `check-secrets.ts`.
 - Invariant identifiers realigned to ADR-011 as the authoritative source:
@@ -89,8 +104,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 1 indexing protection
+  audit complete — 3-layer defense-in-depth (meta + header + robots.txt),
+  environment-aware canonical URL, RSC boundary fix. Gate qualification
+  updated with build EXIT 0 and new gating items.
+
 ### Fixed
 
+- RSC boundary defect in `mapLocation` block: `onClick` handler on directions
+  `<a>` tag cannot serialize across the Server Component boundary. Fixed by
+  extracting `TrackedLink` client component. Build now exits 0.
 - Hub tenant fixture identity corrections (jol-hub, uncommitted):
   - `diocese-vilnius.json`: address `Šv. Jono g. 3` → `Šventaragio g. 4`,
     email → `curia@vilnensis.lt`, phone → `+370 5 262 7098`,
@@ -149,10 +172,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-- Root layout now emits `robots: { index: false, follow: false }` for both
-  general crawlers and `googleBot`. The spoke is not production-ready and must
-  not be indexed by search engines until legal, content, and architectural
-  governance gaps are resolved.
+- Root layout emits `robots: { index: false, follow: false }` for both
+  general crawlers and `googleBot`. Defense-in-depth: `X-Robots-Tag` HTTP
+  header covers non-HTML resources; `public/robots.txt` blocks all crawlers
+  at the protocol level. Three-layer protection ensures no accidental indexing
+  of pre-production content.
 - `docs/drafts/professional-opinion-updated.md` — release-blocking architecture
   and readiness assessment. Incorporates review feedback: GDPR Art. 9
   qualification, Web Accessibility Directive applicability assessment, PCI-DSS

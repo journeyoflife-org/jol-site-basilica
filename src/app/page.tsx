@@ -27,9 +27,9 @@
 import fixture from '@/fixtures/tenant.json';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
 import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
-import { trackEvent } from '@/lib/analytics';
+import TrackedLink from '@/components/tracked-link';
 
-const BASE_URL = 'https://basilica-vilnius-cathedral.gyvenimo-kelias.lt';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 /**
  * Parse a free-form address string into structured PostalAddress fields.
@@ -269,19 +269,14 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                 {' '}{block.lat as number}, {block.lng as number}
               </p>
               {(block.directionsUrl as string | undefined) && (
-                <a
+                <TrackedLink
                   href={block.directionsUrl as string}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-block px-6 py-3 bg-amber-600 text-white rounded hover:bg-amber-700"
-                  onClick={() => trackEvent({
-                    type: 'map_directions_click',
-                    path: '/',
-                    destination: block.directionsUrl as string,
-                  })}
+                  eventPath="/"
+                  eventDestination={block.directionsUrl as string}
                 >
                   {resolveLocale({ lt: 'Gauti nurodymus', en: 'Get Directions', ru: 'Получить направление' }, locale)}
-                </a>
+                </TrackedLink>
               )}
               <p className="mt-3 text-xs text-gray-400">
                 {resolveLocale({

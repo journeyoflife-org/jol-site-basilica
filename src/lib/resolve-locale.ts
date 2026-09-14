@@ -42,6 +42,10 @@ export function resolveLocale(text: LocalizedText, locale: SupportedLocale): str
 
 /**
  * Build hreflang alternates for all supported locales.
+ *
+ * Reserved for multi-locale routes (Prompt 7+). Currently unused —
+ * page.tsx builds hreflang inline to avoid advertising /en and /ru
+ * routes that do not yet exist in this spoke.
  */
 export function buildHreflang(
   _baseUrl: string,
@@ -55,6 +59,9 @@ export function buildHreflang(
 
 /**
  * Build canonical URL for the current locale + path.
+ *
+ * Reserved for multi-locale routes (Prompt 7+). Currently unused —
+ * page.tsx builds canonical inline using NEXT_PUBLIC_SITE_URL.
  */
 export function buildCanonical(baseUrl: string, locale: SupportedLocale, path: string): string {
   return `${baseUrl}/${locale}${path === '/' ? '' : path}`;

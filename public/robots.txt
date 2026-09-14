@@ -1,0 +1,6 @@
+# Pre-production: block all crawlers.
+# Replace with app/robots.ts dynamic route when ready for production indexing.
+# INV-SEO-02: static robots.txt — defense-in-depth alongside layout.tsx meta tag
+# and X-Robots-Tag HTTP header.
+User-agent: *
+Disallow: /

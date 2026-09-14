@@ -152,18 +152,22 @@ Local fixture-level gates:     PASSING
   - theme literals:             PASS (true positive on layout.tsx)
   - secrets:                    PASS
   - workflow completeness:      PASS
-  - unit tests:                 45/45 pass
+  - unit tests:                 46/46 pass
 
-Production-readiness gates:    FAILING
+Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Legal review:               Not done
   - Content approval:           No workflow
-  - Canonical renderer:         Undecided
-  - Shared packages:            Not published
+  - Canonical renderer:         DECIDED — hub template-renderer
+  - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
+  - Spoke SEO deduplication:    DONE — consumes @journeyoflife-org/seo@1.1.0
   - Tenant coverage:            1 of 8 basilicas
-  - Demo environment:           No noindex, no access control
+  - Demo noindex:               DONE — both spoke and hub renderer
   - Hub fixture markers:        408 ru translations pending
   - Donation flow:              Not implemented
   - Content metadata:           No source/verifier/approval tracking
+  - Package governance:         DONE — policy documented in hub
+  - Changeset baseBranch:       DONE — updated to main
+  - Renderer package migration: PLAN documented, implementation deferred
 ```
 
 A passing accessibility check for one composed document does not prove
@@ -174,36 +178,37 @@ forms, schedules, or error states.
 
 ### Immediate (P0 — before any public exposure)
 
-1. Add `robots: { index: false, follow: false }` to the spoke's root layout
-   metadata to prevent search indexing.
-2. Designate a controlled demo hostname (e.g., `demo.basilica.gyvenimo-kelias.lt`)
-   with noindex, no real donation processing, and clearly marked demo status.
-3. Commit the hub's fixture identity corrections (currently uncommitted on `main`).
-4. Decide whether `jol-site-basilica` or `jol-hub/template-renderer` is the
-   canonical renderer. Freeze the other.
+1. ~~Add `robots: { index: false, follow: false }` to the spoke's root layout~~ **DONE** (2026-09-13)
+2. ~~Designate a controlled demo hostname~~ — `noindex` added to both spoke and hub renderer. DNS/infra deployment pending.
+3. ~~Commit the hub's fixture identity corrections~~ **DONE** (2026-09-13)
+4. ~~Decide canonical renderer~~ **DONE** — hub `template-renderer` confirmed as canonical (2026-09-13)
 
-### Short-term (P1-P2 — before pilot)
+### Short-term (P1 — architectural governance)
 
-5. Resolve BF-5: obtain `write:packages` scope and publish `@journeyoflife-org/*` packages.
-6. Resolve BF-4: port the canonical renderer to consume shared packages; delete
-   the duplicate.
-7. Implement the content metadata model (source, verifier, approval, review date).
-8. Establish the content approval workflow (parish sign-off).
-9. Complete the `ru` translation backlog or disable `ru` locale in the
-   template-renderer until translations are ready.
+5. ~~Resolve BF-5: publish `@journeyoflife-org/*` packages~~ **DONE** — 12 packages v1.0.0 published to GitHub Packages (2026-09-13)
+6. ~~Update `.changeset/config.json` baseBranch~~ **DONE** — updated from `feat/pages-step6` to `main` (2026-09-14)
+7. ~~Document package governance policy~~ **DONE** — ownership, versioning, release, rollback, schema compatibility documented (2026-09-14)
+8. ~~Plan TemplateRenderer package migration~~ **DONE** — plan documented, implementation deferred to dedicated session (2026-09-14)
+9. ~~Port spoke SEO to consume hub package~~ **DONE** — spoke consumes `@journeyoflife-org/seo@1.1.0`, local `json-ld.ts` deleted (2026-09-13)
 
-### Medium-term (P3-P4 — pilot expansion)
+### Medium-term (P2-P3 — before pilot)
 
-10. Implement the 1.2% GPM informational page.
-11. Postpone card donations until legal/accounting approval.
-12. Onboard remaining 7 basilica tenants (each as a separate content + operational
+10. Implement the content metadata model (source, verifier, approval, review date).
+11. Establish the content approval workflow (parish sign-off).
+12. Complete the `ru` translation backlog or disable `ru` locale in the
+    template-renderer until translations are ready.
+13. Implement TemplateRenderer package migration (move from app to `@journeyoflife-org/renderer`).
+14. Delete spoke's duplicated block renderer once renderer package is published.
+15. Add integration tests between shared packages and the canonical renderer.
+
+### Long-term (P4-P5 — pilot expansion and donations)
+
+16. Implement the 1.2% GPM informational page.
+17. Postpone card donations until legal/accounting approval.
+18. Onboard remaining 7 basilica tenants (each as a separate content + operational
     onboarding project).
-13. Add integration tests between shared packages and the canonical renderer.
-
-### Long-term (P5 — post-pilot)
-
-14. Implement online donations, payment-provider integration, receipts, accounting.
-15. Validate hub-and-spoke topology in production (10 spokes, 1 hub).
+19. Implement online donations, payment-provider integration, receipts, accounting.
+20. Validate hub-and-spoke topology in production (10 spokes, 1 hub).
 
 ## Effort Qualification
 
@@ -229,6 +234,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-13
-**Prior assessment:** Superseded by this update
-**Next review:** After P0 items are remediated
+**Updated:** 2026-09-14 (P1 governance items completed)
+**Prior assessment:** 2026-09-13 (P0 items + BF-5 resolution)
+**Next review:** After P2 content governance items are addressed

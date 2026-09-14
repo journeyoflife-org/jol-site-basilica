@@ -63,6 +63,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Invariant identifiers realigned to ADR-011 as the authoritative source:
   theme literals INV-7 → INV-5; workflow completeness INV-6 → INV-8.
 - `pnpm verify` additionally runs `check-workflow-completeness`.
+- Professional opinion updated (2026-09-14): P1 architectural governance items
+  completed — `.changeset/config.json` baseBranch updated to `main`, package
+  governance policy documented in hub, TemplateRenderer package migration plan
+  created. Gate qualification updated to PARTIALLY PASSING.
 
 ### Fixed
 

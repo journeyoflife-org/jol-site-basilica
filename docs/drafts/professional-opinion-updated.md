@@ -361,6 +361,41 @@ Comprehensive SEO audit completed. 11 findings identified (4 HIGH, 3 MEDIUM, 4 L
 
 The hub `@journeyoflife-org/seo@1.1.0` exports 30+ functions. The spoke consumes only 3 (churchEntity, massEventEntity, breadcrumbListEntity). The remaining 27+ exports cover canonicals, hreflang, metadata policy, OG/Twitter, sitemap, robots, IndexNow — all production-ready but unused.
 
+## Prompt 11 — Analytics/Consent Audit (2026-09-14)
+
+Comprehensive analytics and consent audit completed. 8 findings identified (3 HIGH, 3 MEDIUM, 2 LOW).
+
+**Full report:** `docs/drafts/analytics-consent-audit.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| **HIGH** | 3 | No `/api/analytics` route handler, no consent UI, no code writes consent to localStorage |
+| MEDIUM | 3 | 3 of 4 event types never fired, TrackedLink not generic, hub observability package unused |
+| LOW | 2 | No cookie banner timeline, no page_view tracking |
+
+### What Works Well
+
+- Consent gate architecture is correct: `trackEvent()` checks localStorage BEFORE sending data
+- SSR guard prevents server-side execution of browser-only APIs
+- No third-party tracking SDKs — self-hosted analytics only
+- Cookie policy accurately documents the (not-yet-implemented) consent mechanism
+
+### What Needs Fixing
+
+1. **Consent UI (AN-2/3):** No banner/dialog exists. User cannot grant or revoke consent. No code writes `jol-consent-analytics` to localStorage.
+2. **API endpoint (AN-1):** `/api/analytics` route handler does not exist. All analytics data silently lost (404).
+3. **Event firing (AN-4/8):** Only 1 of 4 defined event types is actually fired (`map_directions_click`). No `page_view` tracking on any page.
+
+### Paradoxically Safe
+
+Analytics are dead code because consent can never be granted. No data is collected, no PII transmitted, no compliance violation occurs. The architecture is correct; only the UX and write path are missing.
+
+### Hub Observability Package
+
+`@journeyoflife-org/observability` provides production-grade primitives (createLogger, createBatchingSink, createMetricBatcher, redactValue, classifyError) but the spoke's hand-rolled `analytics.ts` (39 lines) does not consume them.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -390,6 +425,11 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - SEO (meta metadata):        FAIL — English titles/descriptions on Lithuanian site, home page missing fixture metadata
   - SEO (OG/Twitter):           FAIL — zero social sharing tags
   - SEO (sitemap):              NOT READY — correct for pre-production
+  - Analytics (consent gate):    PASS — trackEvent() checks localStorage before transmission
+  - Analytics (API endpoint):    FAIL — no /api/analytics route handler exists
+  - Analytics (consent UI):      FAIL — no banner/dialog, user cannot grant/revoke consent
+  - Analytics (event firing):    PARTIAL — 1 of 4 event types fired (map_directions_click)
+  - Analytics (hub integration): FAIL — @journeyoflife-org/observability not consumed
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -470,6 +510,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 10: SEO audit complete — 11 findings, 4 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 9: accessibility/WAD assessment complete)
-**Next review:** After Prompt 11 (analytics/consent audit)
+**Updated:** 2026-09-14 (Prompt 11: analytics/consent audit complete — 8 findings, 3 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 10: SEO audit complete)
+**Next review:** After Prompt 12 (content integrity audit)

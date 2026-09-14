@@ -396,6 +396,41 @@ Analytics are dead code because consent can never be granted. No data is collect
 
 `@journeyoflife-org/observability` provides production-grade primitives (createLogger, createBatchingSink, createMetricBatcher, redactValue, classifyError) but the spoke's hand-rolled `analytics.ts` (39 lines) does not consume them.
 
+## Prompt 12 — Content Integrity Audit (2026-09-14)
+
+Comprehensive content integrity audit completed. 6 findings identified (1 HIGH, 3 MEDIUM, 2 LOW).
+
+**Full report:** `docs/drafts/content-integrity-audit.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| **HIGH** | 1 | Mass schedule dates hardcoded (2026-09-13/14) — stale immediately, no recurrence model |
+| MEDIUM | 3 | CT-03 not implemented, spoke-hub fixture duplication, no content provenance metadata |
+| LOW | 2 | No gate self-tests, no content approval workflow |
+
+### What Works Well
+
+- Content integrity gate: 4 of 5 rules pass (CT-01, CT-02, CT-04, CT-05)
+- Fixture integrity tests: 12/12 passing
+- Identity data verified against public sources (address, email, phone, domain, established date)
+- All internal links resolve (no dead links)
+- All local asset references exist (placeholder SVGs properly labeled)
+- Spoke and hub fixtures are byte-for-byte identical (no divergence)
+- No review markers in fixture values
+
+### What Needs Fixing
+
+1. **Mass schedule (CI-3):** Dates are hardcoded to 2026-09-13/14. Mass schedule is recurring (weekly) but modeled as one-time events. JSON-LD Event schemas will have stale dates.
+2. **CT-03 (CI-1):** Internal link validation documented but not implemented in the gate.
+3. **Fixture sync (CI-4):** Spoke fixture is a copy of hub fixture — no single source of truth, manual sync required.
+4. **Provenance (CI-5):** No content metadata for source, verifier, approval status, or review date.
+
+### Gate Quality
+
+The content integrity gate has no self-tests (unlike `check-a11y-pages.ts`). There is no proof the gate catches violations. Adding self-tests would prove the gate is effective.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -430,6 +465,12 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Analytics (consent UI):      FAIL — no banner/dialog, user cannot grant/revoke consent
   - Analytics (event firing):    PARTIAL — 1 of 4 event types fired (map_directions_click)
   - Analytics (hub integration): FAIL — @journeyoflife-org/observability not consumed
+  - Content integrity (gate):     PASS — CT-01/02/04/05 enforced, CT-03 not implemented
+  - Content integrity (tests):    PASS — 12/12 fixture integrity tests passing
+  - Content integrity (data):     PARTIAL — identity verified, mass schedule dates stale
+  - Content integrity (assets):   PASS — all local assets exist, placeholders labeled
+  - Content provenance:           FAIL — no source/verifier/approval/review tracking
+  - Content approval:             FAIL — no parish sign-off workflow
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -510,6 +551,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 11: analytics/consent audit complete — 8 findings, 3 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 10: SEO audit complete)
-**Next review:** After Prompt 12 (content integrity audit)
+**Updated:** 2026-09-14 (Prompt 12: content integrity audit complete — 6 findings, 1 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 11: analytics/consent audit complete)
+**Next review:** After Prompt 13 (payment boundary audit)

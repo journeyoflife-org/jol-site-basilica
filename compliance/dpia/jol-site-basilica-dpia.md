@@ -30,7 +30,7 @@ go-live") at spoke level.
 
 > **INV-9 note — two ROPA locations exist.** ADR-011 states enforcement as
 > "ROPA dir existence check per spoke", but the implemented check
-> (`@jol-hub/testing` → `adr011-invariants.test.ts`, INV-9) asserts
+> (`@journeyoflife-org/testing` → `adr011-invariants.test.ts`, INV-9) asserts
 > `jol-hub/data/exports/ropa/lt/<vertical>/*.json`. That hub path is populated
 > for all ten verticals and passes. The spoke-level record here is therefore
 > **supplementary** — it is the Art. 30 narrative for this vertical, not the
@@ -65,7 +65,7 @@ go-live") at spoke level.
 | Aspect | Description |
 |--------|-------------|
 | **Processing Operations** | Publication of institutional content; collection of contact/pastoral enquiries; consent-gated behavioural analytics; subdomain-based tenant resolution; editorial creation and moderation of tenant content by authenticated staff; synchronisation of enquiry data to Bitrix24 CRM |
-| **Technologies Used** | Next.js 14 App Router (SSR), TypeScript strict, PostgreSQL schema-per-tenant with RLS (ADR-001), `@jol-hub/tenant-resolver`, `@jol-hub/bitrix-sdk`, Bitrix24 Enterprise on-premise (JOL Proxmox, EU), SOPS/age secret encryption, Proxmox VE deployment |
+| **Technologies Used** | Next.js 14 App Router (SSR), TypeScript strict, PostgreSQL schema-per-tenant with RLS (ADR-001), `@journeyoflife-org/tenant-resolver`, `@journeyoflife-org/bitrix-sdk`, Bitrix24 Enterprise on-premise (JOL Proxmox, EU), SOPS/age secret encryption, Proxmox VE deployment |
 | **Data Flow** | Visitor → nginx wildcard (`*.gyvenimo-kelias.lt`) → tenant resolution (host → slug → schema) → SSR page from seed fixture or RLS-scoped content API → enquiry form → hub backend → Bitrix24 CRM (bidirectional sync) → staff task. Analytics: browser → consent check → `sendBeacon` → platform endpoint. |
 
 ### 2.2 Scope
@@ -73,7 +73,7 @@ go-live") at spoke level.
 | Aspect | Description |
 |--------|-------------|
 | **Geographic Scope** | Lithuania. Data sovereignty: LT data resides in Lithuania (`obsidian/01-Governance/.../High-Level-Architecture-and-Core-Principles.md`) |
-| **Data Subject Volume** | 7 basilica tenants in this spoke. Verified resolvable: `basilica-vilnius-cathedral`. The seven-tenant pilot set is registered in `@jol-hub/tenant-resolver` |
+| **Data Subject Volume** | 7 basilica tenants in this spoke. Verified resolvable: `basilica-vilnius-cathedral`. The seven-tenant pilot set is registered in `@journeyoflife-org/tenant-resolver` |
 | **Data Categories** | DC-01, DC-02, DC-03, DC-04 **(Art. 9)**, DC-06 **(Art. 9)**, DC-08. DC-05 Financial is **not processed** — see §2.5 |
 | **Processing Frequency** | Continuous (public website); event-driven (enquiries); periodic (CRM sync) |
 
@@ -99,7 +99,7 @@ go-live") at spoke level.
 
 **No financial data (DC-05) is processed by this spoke.** ADR-009 Model A closes
 the payment boundary: no PSP SDK, key or endpoint anywhere in the hub tree,
-frontend and config included. `@jol-hub/ui`'s legacy PSP-integrated donation
+frontend and config included. `@journeyoflife-org/ui`'s legacy PSP-integrated donation
 widget was removed under O-021; no `stripe` dependency exists in any package
 manifest; the INV-3 invariant test passes. The renderer's donation surface
 shows a pending-payments notice and does not simulate a charge.

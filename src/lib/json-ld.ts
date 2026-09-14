@@ -1,8 +1,8 @@
 /**
  * JSON-LD structured data for the basilica landing page.
  *
- * Uses the Church entity builder pattern from @jol-hub/seo.
- * TODO: replace with import from @jol-hub/seo when packages are published.
+ * Uses the Church entity builder pattern from @journeyoflife-org/seo.
+ * TODO: replace with import from @journeyoflife-org/seo when packages are published.
  *
  * Schema types per page spec 03 SS3:
  *   Church + CatholicChurch + PlaceOfWorship

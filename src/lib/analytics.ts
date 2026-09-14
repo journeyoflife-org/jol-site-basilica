@@ -15,7 +15,7 @@ export type AnalyticsEvent =
  * Track an analytics event. Consent-gated — caller must verify
  * consent state before invoking.
  *
- * TODO: wire to @jol-hub/observability when packages are published.
+ * TODO: wire to @journeyoflife-org/observability when packages are published.
  */
 export function trackEvent(event: AnalyticsEvent): void {
   if (typeof window === 'undefined') return;

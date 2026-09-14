@@ -123,7 +123,7 @@ jobs:
 
   # --- Performance budgets, measured on the production bundle (INV-10) ---
   # This job cannot go green until BF-5 lands, because `pnpm install` needs the
-  # @jol-hub/* packages in GitHub Packages. It is intentionally NOT marked
+  # @journeyoflife-org/* packages in GitHub Packages. It is intentionally NOT marked
   # continue-on-error and has no skip switch: a performance gate that passes on
   # an absent build is the defect this job was written to remove.
   perf-budget:

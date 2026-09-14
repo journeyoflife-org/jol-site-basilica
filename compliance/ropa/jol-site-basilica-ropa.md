@@ -79,10 +79,10 @@ conditions are not determinable from code and are left to the DPO.
 
 | Ref. | Evidence |
 |------|----------|
-| PA-001 | `jol-bitrix24-integration/docs/architecture.md`; `@jol-hub/bitrix-sdk/src/api/crm.ts`; renderer `components/crm/ContactFormCrm.tsx`, `app/api/crm/leads/route.ts` |
+| PA-001 | `jol-bitrix24-integration/docs/architecture.md`; `@journeyoflife-org/bitrix-sdk/src/api/crm.ts`; renderer `components/crm/ContactFormCrm.tsx`, `app/api/crm/leads/route.ts` |
 | PA-002 | `src/lib/analytics.ts` — consent read from `localStorage['jol-consent-analytics']`, emits only when value is exactly `granted` |
-| PA-003 | `@jol-hub/tenant-resolver/src/index.ts` — subdomain/header resolution, LRU cache, `toPublicTenant` strips `schema` |
-| PA-004 | `@jol-hub/seed-data/src/schema.ts` — `ClergyRoleListBlockSchema` documented as "ROLES ONLY, never names. Clergy names are Art. 9 personal data and must come from the RLS-scoped content API, never from a committed fixture." |
+| PA-003 | `@journeyoflife-org/tenant-resolver/src/index.ts` — subdomain/header resolution, LRU cache, `toPublicTenant` strips `schema` |
+| PA-004 | `@journeyoflife-org/seed-data/src/schema.ts` — `ClergyRoleListBlockSchema` documented as "ROLES ONLY, never names. Clergy names are Art. 9 personal data and must come from the RLS-scoped content API, never from a committed fixture." |
 | PA-005 | Renderer `components/editor/{BlockEditor,ModerationQueue}.tsx`, `lib/editor/{sanitize,moderation,validation}.ts`, `lib/rate-limit.ts`, `app/api/auth/[...nextauth]/route.ts` |
 
 ### 1.3 Art. 9 exposure — the material risk
@@ -173,7 +173,7 @@ complicate that assertion and need DPO confirmation:
    rather than a server-side transfer of JOL-held personal data, but it is a
    third-party disclosure of the visitor's IP address and must be covered by
    the cookie/privacy notice.
-2. **Build and package supply chain.** `@jol-hub/*` packages resolve from
+2. **Build and package supply chain.** `@journeyoflife-org/*` packages resolve from
    `npm.pkg.github.com` and CI runs on GitHub Actions (US). This carries
    **source code, not tenant personal data** — but IP addresses of contributors
    and CI logs are in scope and should be assessed.
@@ -198,7 +198,7 @@ also a template and not yet instantiated for this spoke.
 | Encryption in transit | TLS | Implemented at edge; `[REQUIRED — DPO INPUT]` confirm TLS version and wildcard-certificate scope for `*.gyvenimo-kelias.lt` |
 | Secret detection | `scripts/check-secrets.sh` with positive-control self-test | **Remediated 2026-09-12** — previously vacuous, scanning zero files |
 | Payment boundary | `scripts/check-payment-boundary.sh` (INV-3, ADR-009 Model A) | **Remediated 2026-09-12** — previously vacuous |
-| Access control | RBAC via `@jol-hub/auth`, `next-auth` | Implemented in hub renderer |
+| Access control | RBAC via `@journeyoflife-org/auth`, `next-auth` | Implemented in hub renderer |
 | Schema isolation | Schema-per-tenant + RLS (ADR-001); schema name server-only | Implemented |
 | Tenant non-enumeration | Closed lookups returning `null`; bare 404 | Implemented |
 | Audit logging | Append-only JSON audit log | Implemented in `jol-bitrix24-integration` |

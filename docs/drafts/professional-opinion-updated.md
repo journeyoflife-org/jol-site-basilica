@@ -184,7 +184,7 @@ forms, schedules, or error states.
 
 ### Short-term (P1-P2 — before pilot)
 
-5. Resolve BF-5: obtain `write:packages` scope and publish `@jol-hub/*` packages.
+5. Resolve BF-5: obtain `write:packages` scope and publish `@journeyoflife-org/*` packages.
 6. Resolve BF-4: port the canonical renderer to consume shared packages; delete
    the duplicate.
 7. Implement the content metadata model (source, verifier, approval, review date).

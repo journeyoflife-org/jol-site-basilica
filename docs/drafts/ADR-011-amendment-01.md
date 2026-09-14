@@ -21,7 +21,7 @@ found while remediating the ten spokes on 2026-09-12/13.
 | Source | States |
 |---|---|
 | ADR-011 INV-10 | "WCAG **2.1** AA; axe-core exit 0 on every build" |
-| `jol-site-basilica/README.md` | "`@jol-hub/a11y` (WCAG **2.2** AA)" |
+| `jol-site-basilica/README.md` | "`@journeyoflife-org/a11y` (WCAG **2.2** AA)" |
 | Platform-owner directive, 2026-09-13 | "Target WCAG **2.2** AA unless formally changed" |
 
 ### Proposed change
@@ -43,7 +43,7 @@ INV-10 reads: **"Accessibility. WCAG 2.2 AA; axe-core exit 0 on every build."**
 
 ### Impact — verified as documentation-only
 
-`@jol-hub/testing/src/invariants/adr011-invariants.test.ts` implements tests
+`@journeyoflife-org/testing/src/invariants/adr011-invariants.test.ts` implements tests
 for **six** invariants: INV-2, INV-3, INV-5, INV-7, INV-9, INV-11. **INV-10 has
 no implemented test**, so no assertion encodes "2.1" and **no code change is
 required** by this amendment.
@@ -133,7 +133,7 @@ false for four of eleven invariants.**
 
 | INV | Gap | Evidence |
 |---|---|---|
-| **INV-1** | No test asserts that spokes contain no shared logic. All ten spokes ship `src/lib/{resolve-locale,json-ld,analytics}.ts` duplicating `@jol-hub/{i18n,seo,observability}`, and hand-rolled block renderers duplicating the hub's `TemplateRenderer`/`page-composer`. This is the single largest live violation of the topology and nothing detects it. | Verified across spokes 2026-09-13 |
+| **INV-1** | No test asserts that spokes contain no shared logic. All ten spokes ship `src/lib/{resolve-locale,json-ld,analytics}.ts` duplicating `@journeyoflife-org/{i18n,seo,observability}`, and hand-rolled block renderers duplicating the hub's `TemplateRenderer`/`page-composer`. This is the single largest live violation of the topology and nothing detects it. | Verified across spokes 2026-09-13 |
 | **INV-4** | No test greps spokes for `t_` schema literals, despite ADR-001 treating schema names as server-only secrets. | Not implemented in the invariant suite |
 | **INV-8** | No hub test. Spoke-level `check-workflow-completeness.sh` existed but was **orphaned** — referenced by neither `package.json` nor `ci.yml` — so the meta-check guaranteeing "a spoke cannot silently skip a gate" never ran. **Fixed 2026-09-13** in all ten spokes; still no hub-side assertion that all ten remain identical. Also unmet: INV-8's stated mechanism is *"workflow sha256 pin match"*, but spokes reference org reusable workflows at the mutable ref `@main`, so gate logic can change under every spoke with no spoke-side diff. | Verified 2026-09-13 |
 | **INV-10** | No test at all. See §1. | Verified 2026-09-13 |
@@ -194,7 +194,7 @@ control that detects it.
 ## 5A. Amendment F — Branch of record for the hub frontend
 
 ADR-011 describes a hub-and-spoke topology in which ten spokes consume twelve
-published `@jol-hub/*` packages. It does not state **which hub branch those
+published `@journeyoflife-org/*` packages. It does not state **which hub branch those
 packages come from**, and the answer is not the obvious one.
 
 Verified 2026-09-13:
@@ -252,7 +252,7 @@ Last existing entry verified as **D-065**. Proposed:
 | **D-068** | INV-9 enforcement restated as two artefacts: hub machine-checked ROPA export per vertical, plus per-spoke narrative ROPA and DPIA. | Amendment C |
 | **D-069** | ADR-011's claim that all eleven invariants are CI-enforced is corrected. INV-1, INV-4 and INV-10 have no implemented test; INV-8's sha256 pin requirement is unmet in all ten spokes. Implementing them is recorded as required work. | Amendment D |
 | **D-070** | Frontend repository template corrected to remove the hardcoded denomination literal from `layout.tsx` metadata, which violated INV-5 by construction in all ten spokes and published false religious-identity metadata for the orthodox and protestant verticals. | Amendment E |
-| **D-072** | `feat/pages-step6` named the hub frontend trunk-in-waiting and the branch of record for publishing the twelve `@jol-hub/*` packages. `main` is 125 commits behind and lacks the renderer, `tenant-resolver`, ADR-011 and `release.yml`. Fast-forward into `main` recorded as pending work, gated on `build-gate` being green. | Amendment F |
+| **D-072** | `feat/pages-step6` named the hub frontend trunk-in-waiting and the branch of record for publishing the twelve `@journeyoflife-org/*` packages. `main` is 125 commits behind and lacks the renderer, `tenant-resolver`, ADR-011 and `release.yml`. Fast-forward into `main` recorded as pending work, gated on `build-gate` being green. | Amendment F |
 
 *D-071 is reserved by `donation-demonstration-path.md`; it is deliberately not
 reused here.*

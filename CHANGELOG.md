@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   which shipped without a CHANGELOG entry: `src/app/page.tsx` block renderer,
   `src/fixtures/tenant.json` (Vilnius Cathedral Basilica) and spoke-local
   `src/lib/{resolve-locale,json-ld,analytics}.ts`.
-- `.npmrc` — scoped registry mapping for `@jol-hub/*` per ADR-011 Annex C. The
+- `.npmrc` — scoped registry mapping for `@journeyoflife-org/*` per ADR-011 Annex C. The
   credential is supplied through `NPM_TOKEN` in the environment; no token is
   committed.
 - `workflow-completeness` CI job, running
@@ -118,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   being swallowed by `2>/dev/null || true`; a gate with nothing to scan fails
   rather than passing.
 - Removed an untracked npm `package-lock.json` and restored the committed
-  `^1.0.0` registry pins for `@jol-hub/*`, which had been locally downgraded
+  `^1.0.0` registry pins for `@journeyoflife-org/*`, which had been locally downgraded
   to `file:` path dependencies contrary to INV-2 and ADR-011 Annex C. INV-7
   mandates pnpm 10.30.3 only.
 

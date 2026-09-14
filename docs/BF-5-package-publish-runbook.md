@@ -1,4 +1,4 @@
-# BF-5 Runbook — Publish `@jol-hub/*@1.0.0` to GitHub Packages
+# BF-5 Runbook — Publish `@journeyoflife-org/*@1.0.0` to GitHub Packages
 
 **Purpose:** unblock every spoke. Until these packages resolve from the
 registry, no spoke can `pnpm install`, so no spoke can build, so the six-spoke
@@ -31,14 +31,14 @@ and every route returns HTTP 500:
 
 | Package | Defect | Effect |
 |---|---|---|
-| `@jol-hub/i18n` | `src/index.ts` re-exported `TranslationProvider` | `robots.txt`, `sitemap.xml` and every page 500'd |
-| `@jol-hub/ui` | none of the 7 entry barrels carried the directive | all 10 tenants 500'd |
+| `@journeyoflife-org/i18n` | `src/index.ts` re-exported `TranslationProvider` | `robots.txt`, `sitemap.xml` and every page 500'd |
+| `@journeyoflife-org/ui` | none of the 7 entry barrels carried the directive | all 10 tenants 500'd |
 
-`@jol-hub/auth` shows the same latent condition in 1 of 5 chunks.
+`@journeyoflife-org/auth` shows the same latent condition in 1 of 5 chunks.
 
 Fixed on hub branch **`fix/i18n-rsc-barrel`** (off `feat/pages-step6`): the
 provider was removed from the i18n barrel, five consumers repointed to
-`@jol-hub/i18n/provider`, and `'use client';` added to the six ui client entry
+`@journeyoflife-org/i18n/provider`, and `'use client';` added to the six ui client entry
 barrels while `tokens/index.ts` stays server-safe. **Verified: all ten tenants
 return HTTP 200** with correct Lithuanian titles, tenant-subdomain canonicals
 and `Church`/`PlaceOfWorship` JSON-LD; `robots.txt` and `sitemap.xml` went
@@ -91,7 +91,7 @@ All twelve packages were checked on 2026-09-13:
 | `dist/` | `dist/index.mjs` present for all 12 |
 | CHANGELOG | `## [1.0.0] — 2026-09-11` present (verified on `ui`) |
 
-`@jol-hub/ui` — flagged as "the hard one" in `package-publish-plan.md` — is
+`@journeyoflife-org/ui` — flagged as "the hard one" in `package-publish-plan.md` — is
 resolved: **zero wildcard exports** (12 enumerated), `sideEffects:
 ["./src/styles/*.css"]`, `files: ["dist", "src/styles", "tailwind.config.ts"]`.
 The CSS tree-shaking hazard called out in that plan is covered.
@@ -235,14 +235,14 @@ pnpm release                                  # = build:packages && changeset pu
 unset NPM_TOKEN   # prove the spoke .npmrc supplies the scope
 cd /opt/jol/repos/jol-site-basilica
 export NPM_TOKEN=<pat-with-read:packages>
-npm view @jol-hub/tenant-resolver version --registry=https://npm.pkg.github.com
+npm view @journeyoflife-org/tenant-resolver version --registry=https://npm.pkg.github.com
 pnpm install
 pnpm type-check
 ```
 
 **Acceptance:** `npm view` prints `1.0.0` (today it prints
 `404 … is not in this registry`); `pnpm install` populates
-`node_modules/@jol-hub/*` (today it contains **zero** hub packages);
+`node_modules/@journeyoflife-org/*` (today it contains **zero** hub packages);
 `pnpm-lock.yaml` is generated and must be committed.
 
 Repeat 4.3 for all six pilot spokes, then for the remaining four.
@@ -262,9 +262,9 @@ migrated off `file:` links. Do not do this after spokes have migrated.
 
 | Blocked until BF-5 clears | Reason |
 |---|---|
-| `pnpm install` in all ten spokes | `@jol-hub/*@^1.0.0` returns 404 |
-| BF-4 extraction of `@jol-hub/renderer` | The new package must itself be published for spokes to consume it |
-| Making any spoke multi-tenant | Requires `@jol-hub/tenant-resolver` middleware at runtime |
+| `pnpm install` in all ten spokes | `@journeyoflife-org/*@^1.0.0` returns 404 |
+| BF-4 extraction of `@journeyoflife-org/renderer` | The new package must itself be published for spokes to consume it |
+| Making any spoke multi-tenant | Requires `@journeyoflife-org/tenant-resolver` middleware at runtime |
 | Nine of the ten demo sites | Each spoke currently renders one unrelated Vilnius/Kaunas exemplar |
 | Reproducible builds and honest rollback | No committed lockfile is possible without a resolvable registry |
 

@@ -21,8 +21,8 @@
  * Analytics events (consent-gated):
  * - page_view, mass_times_open, map_directions_click, contact_form_submit_success
  *
- * TODO: consume @jol-hub/ui components, @jol-hub/seo builders,
- *       @jol-hub/seed-data fixture when packages are published.
+ * TODO: consume @journeyoflife-org/ui components, @journeyoflife-org/seo builders,
+ *       @journeyoflife-org/seed-data fixture when packages are published.
  */
 import fixture from '@/fixtures/tenant.json';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';

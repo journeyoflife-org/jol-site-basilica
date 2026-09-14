@@ -270,6 +270,35 @@ Audit of all 3 legal pages completed. **Verdict: factual errors found, plan docu
 
 The factual inconsistencies (FI-1 through FI-5) are a **regulatory liability**, not a design choice. A cookie policy that describes cookies the site does not set violates the e-Privacy Directive's transparency requirement. An accessibility statement that claims testing with assistive technologies that were never used violates EU 2016/2102 Art. 7. **Phase 8A should be executed immediately** — it requires no legal expertise, only factual accuracy.
 
+## Prompt 9 — Accessibility/WAD Assessment (2026-09-14)
+
+Technical accessibility audit and Web Accessibility Directive applicability analysis completed. **Verdict: 2 contrast failures, 6 additional issues, WAD likely not applicable.**
+
+### Static Gate Quality
+
+The `check-a11y-pages.ts` gate covers 4 of ~50 WCAG 2.2 AA success criteria with high-quality self-tests (6 defect classes). It is honest about what it cannot check (contrast, focus order, ARIA semantics — all require rendered DOM).
+
+### Issues Found
+
+| ID | Severity | WCAG | Issue |
+|---|---|---|---|
+| A11Y-1 | HIGH | 1.4.3 | `text-white` on `bg-amber-600` — ~3.0:1 contrast, **fails AA** (CTA buttons) |
+| A11Y-2 | HIGH | 1.4.3 | `text-gray-400` on `bg-gray-50` — ~3.9:1 contrast, **fails AA** (map coordinates text) |
+| A11Y-4 | MEDIUM | 2.4.7 | Skip link text is English while `lang="lt"` |
+| A11Y-5 | MEDIUM | 2.4.4 | External links open new tab with no warning |
+| A11Y-6 | MEDIUM | 2.5.8 | Touch targets need DOM verification |
+| A11Y-8 | LOW | 1.3.1 | Legal page sections lack `aria-label` |
+
+### WAD Applicability
+
+**The WAD likely does NOT legally apply** — religious organizations are not public sector bodies under EU 2016/2102 or Lithuanian national implementation. However, if the organization voluntarily claims WCAG 2.2 AA conformance, it should deliver on that claim.
+
+**Assessment document:** `docs/drafts/accessibility-assessment.md`
+
+### Recommendation
+
+A11Y-1 and A11Y-2 are immediate fixes (15 min each) — source-level Tailwind class changes that do not require DOM testing or design decisions. These should be executed before any public exposure.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -289,6 +318,9 @@ Local fixture-level gates:     PASSING
 Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Legal review:               Not done (5 factual errors identified — Prompt 8A pending)
   - Legal factual accuracy:     FAIL — cookie policy describes non-existent cookies (FI-1), a11y statement claims unperformed testing (FI-2)
+  - Accessibility (static):     PASS — 4 WCAG criteria enforced via source-level gate with self-tests
+  - Accessibility (contrast):   FAIL — 2 color combinations fail WCAG 2.2 AA 1.4.3 (A11Y-1, A11Y-2)
+  - WAD applicability:          LIKELY NOT APPLICABLE — religious organization, not public sector body
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -369,6 +401,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 8: legal pages audit + implementation plan)
-**Prior assessment:** 2026-09-14 (Prompt 1: indexing protection audit + remediation)
-**Next review:** After Prompt 9 (accessibility/WAD assessment)
+**Updated:** 2026-09-14 (Prompt 9: accessibility/WAD assessment complete)
+**Prior assessment:** 2026-09-14 (Prompt 8: legal pages audit + implementation plan)
+**Next review:** After Prompt 10 (SEO audit)

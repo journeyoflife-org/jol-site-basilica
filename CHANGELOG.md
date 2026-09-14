@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/accessibility-assessment.md` — WCAG 2.2 AA technical audit +
+  WAD applicability analysis (Prompt 9). Static gate covers 4 of ~50 WCAG
+  criteria. Identifies 2 contrast failures (A11Y-1: `bg-amber-600 text-white`
+  ~3.0:1, A11Y-2: `text-gray-400` on `bg-gray-50` ~3.9:1), 4 additional
+  medium-severity issues (English skip link in Lithuanian page, no new-tab
+  warning, touch targets unverified, legal sections unlabeled). WAD likely
+  not applicable to religious organization. Recommends e2e testing stack:
+  Playwright + axe-core, manual keyboard navigation, screen reader testing.
 - `docs/drafts/legal-pages-implementation-plan.md` — legal pages audit and
   5-phase implementation plan (Prompt 8). Identifies 5 factual inconsistencies:
   cookie policy describes non-existent Google Analytics cookies (FI-1),
@@ -112,6 +120,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 9 accessibility/WAD
+  assessment complete — 2 contrast failures, 6 issues total, WAD likely
+  not applicable. Gate qualification updated with accessibility static PASS,
+  contrast FAIL, WAD not applicable.
 - Professional opinion updated (2026-09-14): Prompt 8 legal pages audit
   complete — 5 factual errors identified, 5-phase implementation plan
   documented. Gate qualification updated: legal factual accuracy FAIL.

@@ -461,6 +461,40 @@ Payment boundary audit completed. 3 findings identified (0 HIGH, 2 MEDIUM, 1 LOW
 
 The payment boundary is the strongest compliance control in the spoke. The gate is well-engineered, the architecture decision is clear, and enforcement is dual-layered. Zero payment-related code is exactly correct for a pre-SAQ-A state.
 
+## Prompt 14 — TemplateRenderer Packaging Assessment (2026-09-14)
+
+TemplateRenderer packaging assessment completed. 6 findings identified (2 HIGH, 3 MEDIUM, 1 LOW).
+
+**Full report:** `docs/drafts/template-renderer-packaging-assessment.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| HIGH | 2 | TemplateRenderer is private app (not package), migration plan not implemented |
+| MEDIUM | 3 | Block type coverage mismatch (14 hub vs 10 spoke), SEO/analytics must remain spoke-local, no unit tests |
+| LOW | 1 | TemplateRenderer has no unit tests (only integration tests) |
+
+### What Works Well
+
+- **TemplateRenderer design:** 239 lines, 14 block types, pure component
+- **Dependencies:** Only @journeyoflife-org/ui + seed-data (both published)
+- **Migration plan:** Documented in hub (docs/architecture/renderer-package-migration-plan.md)
+- **Block type overlap:** 10/14 types (71%) already match between hub and spoke
+
+### What Needs Attention
+
+1. **Create @journeyoflife-org/renderer package** — 2 hours, P1 priority
+2. **Publish to GitHub Packages** — 30 minutes
+3. **Port spoke to consume package** — 2-3 hours (replace 247-line duplicated block renderer)
+4. **Add unit tests for TemplateRenderer** — currently only integration tests
+
+### Migration Path
+
+Total effort: 5-6 hours. Risk is low because rollback is simple (revert spoke's page.tsx).
+
+The spoke's SEO layer (JSON-LD, hreflang, canonical) and analytics (TrackedLink) must remain spoke-local — they are not part of the renderer.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -504,6 +538,8 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Payment boundary (INV-3):     PASS — 14 PSP patterns, 4 self-tests, zero violations
   - Payment boundary (ADR-009):   PASS — Model A fully compliant, boundary CLOSED
   - Payment boundary (CI):        PASS — dual-layered enforcement (local + CI + INV-8)
+  - TemplateRenderer (hub):       FAIL — private app, not package, migration not implemented
+  - TemplateRenderer (spoke):     FAIL — 247 lines duplicated, should consume hub package
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -584,6 +620,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 13: payment boundary audit complete — 3 findings, 0 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 12: content integrity audit complete)
-**Next review:** After Prompt 14 (TemplateRenderer packaging assessment)
+**Updated:** 2026-09-14 (Prompt 14: TemplateRenderer packaging assessment complete — 6 findings, 2 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 13: payment boundary audit complete)
+**Next review:** After Prompt 15 (demo environment deployment)

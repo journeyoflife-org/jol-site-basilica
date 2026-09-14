@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/template-renderer-packaging-assessment.md` — TemplateRenderer packaging
+  assessment (Prompt 14). 6 findings (2 HIGH, 3 MEDIUM, 1 LOW). Hub TemplateRenderer
+  is private app (not package), migration plan documented but not implemented.
+  Spoke has 247 lines duplicated block renderer that should consume hub package.
+  Migration path: create @journeyoflife-org/renderer (5-6 hours total). Full report:
+  docs/drafts/template-renderer-packaging-assessment.md.
 - `docs/drafts/payment-boundary-audit.md` — payment boundary audit (Prompt 13).
   3 findings (0 HIGH, 2 MEDIUM, 1 LOW). Gate detects 14 PSP SDK patterns with
   4 self-tests. ADR-009 Model A fully compliant — zero PSP code in spoke.
@@ -142,6 +148,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 14 TemplateRenderer packaging
+  assessment complete — 6 findings (2 HIGH, 3 MEDIUM, 1 LOW). Hub TemplateRenderer
+  is private app, migration plan not implemented. Spoke has 247 lines duplicated.
+  Migration path: 5-6 hours, low risk. Full report:
+  docs/drafts/template-renderer-packaging-assessment.md.
 - Professional opinion updated (2026-09-14): Prompt 13 payment boundary audit
   complete — 3 findings (0 HIGH, 2 MEDIUM, 1 LOW). Gate well-engineered (14
   patterns, 4 self-tests), ADR-009 Model A fully compliant, zero PSP code.

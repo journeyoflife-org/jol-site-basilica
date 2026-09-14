@@ -655,6 +655,49 @@ First tenant verification completed. 5 findings identified (1 HIGH, 2 MEDIUM, 2 
 **Accessibility:** ✅ WCAG 2.2 AA static checks pass
 **Legal:** ⚠️ Requires lawyer review (Prompt 16)
 
+## Prompt 19 — Readiness Review (2026-09-14)
+
+Comprehensive readiness review completed. Synthesis of 62 findings across 11 audits (Prompts 8-18).
+
+**Full report:** `docs/drafts/readiness-review.md`
+
+### Overall Assessment
+
+| Metric | Value |
+|---|---|
+| Total findings | 62 |
+| HIGH severity | 14 |
+| MEDIUM severity | 22 |
+| LOW severity | 26 |
+| Audits completed | 11 |
+| Demo readiness | READY (3-4 hours) |
+| Production readiness | NOT READY (49-73 hours) |
+
+### Critical Production Blockers
+
+1. **Legal:** Privacy policy missing GDPR Art. 6 legal basis, retention periods, DPO — requires lawyer review (8-16 hours legal fees)
+2. **Architectural:** TemplateRenderer is private app, not package — spoke duplicates 247 lines of hub renderer (5-6 hours)
+3. **Content governance:** No approval workflow, no provenance fields, no content ownership (4 hours schema + process)
+4. **Content freshness:** Mass schedule dates hardcoded (2026-09-13/14), stale immediately (2-3 hours)
+
+### What Works Well
+
+- Build exits 0, 46/46 tests pass
+- Payment boundary fully closed (ADR-009 Model A compliant)
+- 3-layer indexing protection complete
+- First tenant (Vilnius Cathedral Basilica) verified and renders correctly
+- JSON-LD, canonical, hreflang all correct
+- Zero `[TODO: verify]` markers in basilica fixture
+
+### Effort Estimate
+
+- **Demo environment:** 3-4 hours (Vercel)
+- **Production readiness:** 49-73 hours (including 8-16 hours lawyer review)
+
+### Recommendation
+
+Deploy demo to Vercel immediately for stakeholder review. Simultaneously engage lawyer for GDPR review and begin TemplateRenderer packaging. Do not deploy to production until legal, architectural, and content governance blockers are resolved.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -795,6 +838,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 18: first tenant verification complete — 5 findings, 1 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 17: content approval workflow complete)
-**Next review:** After Prompt 19 (readiness review)
+**Updated:** 2026-09-14 (Prompt 19: comprehensive readiness review complete — 62 findings across 11 audits)
+**Prior assessment:** 2026-09-14 (Prompt 18: first tenant verification complete)
+**Next review:** After Prompt 20 (final sign-off)

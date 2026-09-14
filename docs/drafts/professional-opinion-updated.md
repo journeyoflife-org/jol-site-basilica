@@ -611,6 +611,50 @@ Content approval workflow assessment completed. 8 findings identified (3 HIGH, 3
 
 Start with schema extension and content ownership definition (4 hours total). This establishes the governance foundation without requiring a full workflow implementation. The approval workflow can be added incrementally as the platform matures.
 
+## Prompt 18 — First Tenant Verification (2026-09-14)
+
+First tenant verification completed. 5 findings identified (1 HIGH, 2 MEDIUM, 2 LOW).
+
+**Full report:** `docs/drafts/first-tenant-verification.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| HIGH | 1 | Mass schedule dates hardcoded (2026-09-13/14) — stale JSON-LD |
+| MEDIUM | 2 | Gallery uses placeholder SVGs (no real photos) |
+| LOW | 2 | Clergy roles have no names (GDPR-safe), no TODO markers |
+
+### What Works Well
+
+- **Build:** Exits 0, 7 static pages generated
+- **Tests:** 46/46 pass across 3 suites
+- **Identity data:** Fully verified against katedra.lt, VLE, SAVAITĖ
+- **Content blocks:** All 10 block types render correctly
+- **JSON-LD:** Church, Event, BreadcrumbList emitted correctly
+- **Canonical URL:** Environment-aware (demo ≠ production)
+- **Hreflang:** Conservative (lt + x-default only)
+- **noindex protection:** 3-layer defense complete
+- **Zero TODO markers:** Basilica fixture is clean (408 markers in other hub fixtures are ru-only)
+
+### What Requires Immediate Attention
+
+1. **Mass schedule recurrence model** — replace hardcoded dates with recurrence (2-3 hours, HIGH)
+
+### What Requires Content Acquisition
+
+2. **Gallery photographs** — replace placeholder SVGs with licensed parish photos (requires parish license)
+
+### Verification Status
+
+**Tenant:** Vilnius Cathedral Basilica (basilica-vilnius-cathedral)
+**Status:** ✅ VERIFIED (structurally sound, renders correctly)
+**Identity data:** ✅ Fully verified against public sources
+**Content blocks:** ✅ All 10 render correctly
+**JSON-LD:** ✅ Emitted correctly
+**Accessibility:** ✅ WCAG 2.2 AA static checks pass
+**Legal:** ⚠️ Requires lawyer review (Prompt 16)
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -668,6 +712,9 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Content provenance:           FAIL — no sourceUrl, verifiedDate, verifier, approvalStatus
   - Content ownership:            FAIL — no designated content owner per tenant
   - Content review cycle:         FAIL — no scheduled review process
+  - First tenant (Vilnius):       PASS — verified, renders correctly, identity data confirmed
+  - Mass schedule (dates):        FAIL — hardcoded 2026-09-13/14, stale immediately
+  - Gallery (images):             PARTIAL — placeholder SVGs, no real photos
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -748,6 +795,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 17: content approval workflow complete — 8 findings, 3 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 16: legal review of stub pages complete)
-**Next review:** After Prompt 18 (first tenant verification)
+**Updated:** 2026-09-14 (Prompt 18: first tenant verification complete — 5 findings, 1 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 17: content approval workflow complete)
+**Next review:** After Prompt 19 (readiness review)

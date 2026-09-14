@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/first-tenant-verification.md` — first tenant verification (Prompt 18).
+  5 findings (1 HIGH, 2 MEDIUM, 2 LOW). Vilnius Cathedral Basilica verified:
+  build exits 0, 46/46 tests pass, all 10 content blocks render correctly,
+  identity data verified against katedra.lt/VLE/SAVAITĖ, zero TODO markers.
+  Mass schedule dates hardcoded (HIGH), gallery uses placeholder SVGs.
+  Full report: docs/drafts/first-tenant-verification.md.
 - `docs/drafts/content-approval-workflow-assessment.md` — content approval workflow
   assessment (Prompt 17). 8 findings (3 HIGH, 3 MEDIUM, 2 LOW). No approval workflow,
   no provenance fields (sourceUrl, verifiedDate, verifier, approvalStatus), no content
@@ -166,6 +172,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 18 first tenant verification
+  complete — 5 findings (1 HIGH, 2 MEDIUM, 2 LOW). Vilnius Cathedral Basilica
+  verified: build exits 0, 46/46 tests, all 10 blocks render, identity data
+  confirmed. Mass schedule dates hardcoded (HIGH). Full report:
+  docs/drafts/first-tenant-verification.md.
 - Professional opinion updated (2026-09-14): Prompt 17 content approval workflow
   complete — 8 findings (3 HIGH, 3 MEDIUM, 2 LOW). No approval workflow, no
   provenance fields, no content ownership. Schema extension proposed (2 hours).

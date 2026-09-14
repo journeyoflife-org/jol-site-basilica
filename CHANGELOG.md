@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/content-approval-workflow-assessment.md` — content approval workflow
+  assessment (Prompt 17). 8 findings (3 HIGH, 3 MEDIUM, 2 LOW). No approval workflow,
+  no provenance fields (sourceUrl, verifiedDate, verifier, approvalStatus), no content
+  ownership. Clergy data (Art. 9) has no approval process. Schema extension proposed
+  (2 hours). Full workflow requires 8-12 hours. Full report:
+  docs/drafts/content-approval-workflow-assessment.md.
 - `docs/drafts/legal-review-stub-pages-assessment.md` — legal review of stub pages
   assessment (Prompt 16). 9 findings (2 HIGH, 4 MEDIUM, 3 LOW). Privacy policy missing
   Art. 6 legal basis, retention periods, DPO contact. All pages Lithuanian-only
@@ -160,6 +166,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 17 content approval workflow
+  complete — 8 findings (3 HIGH, 3 MEDIUM, 2 LOW). No approval workflow, no
+  provenance fields, no content ownership. Schema extension proposed (2 hours).
+  Full workflow requires 8-12 hours. Full report:
+  docs/drafts/content-approval-workflow-assessment.md.
 - Professional opinion updated (2026-09-14): Prompt 16 legal review of stub pages
   complete — 9 findings (2 HIGH, 4 MEDIUM, 3 LOW). Privacy policy missing Art. 6,
   retention, DPO. All pages Lithuanian-only. Requires lawyer review. Full report:

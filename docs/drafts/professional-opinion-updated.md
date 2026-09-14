@@ -574,6 +574,43 @@ Legal review assessment completed. 9 findings identified (2 HIGH, 4 MEDIUM, 3 LO
 
 Engage a lawyer specializing in Lithuanian data protection law to review the privacy policy and determine Art. 6 legal bases, retention periods, DPO requirement, and WAD applicability. Simultaneously, implement the cookie banner and add English/Russian translations.
 
+## Prompt 17 — Content Approval Workflow (2026-09-14)
+
+Content approval workflow assessment completed. 8 findings identified (3 HIGH, 3 MEDIUM, 2 LOW).
+
+**Full report:** `docs/drafts/content-approval-workflow-assessment.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| HIGH | 3 | No approval workflow, no provenance fields, clergy data (Art. 9) has no approval process |
+| MEDIUM | 3 | No content ownership, no review cycle, mass schedule dates hardcoded |
+| LOW | 2 | No content staging, no versioning |
+
+### What Works Well
+
+- **Fixture schema:** Well-structured content model with localized text
+- **Content verification:** Vilnius Cathedral Basilica fixture verified against katedra.lt, VLE, SAVAITĖ
+- **Identity data:** Address, email, phone verified against public sources
+
+### What Requires Immediate Attention
+
+1. **Add governance fields to schema** — sourceUrl, verifiedDate, verifier, approvalStatus, nextReviewDate (2 hours)
+2. **Define content ownership** — designate content owner per tenant
+3. **Verify clergy data handling** — ensure no Art. 9 data without approval
+4. **Implement mass schedule recurrence** — replace hardcoded dates with recurrence model
+
+### What Requires Significant Effort
+
+5. **Implement approval workflow** — draft → approved state machine (8-12 hours)
+6. **Add content staging** — preview URL per tenant (4-6 hours)
+7. **Add review reminders** — email on nextReviewDate (2-3 hours)
+
+### Recommendation
+
+Start with schema extension and content ownership definition (4 hours total). This establishes the governance foundation without requiring a full workflow implementation. The approval workflow can be added incrementally as the platform matures.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -627,6 +664,10 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Legal pages (cookies):        PARTIAL — accurate but no cookie banner UI
   - Legal pages (accessibility):  PARTIAL — "partially compliant" claim may be inaccurate
   - Legal pages (translations):   FAIL — Lithuanian-only, site supports lt/en/ru
+  - Content approval workflow:    FAIL — no workflow, no provenance fields, no ownership
+  - Content provenance:           FAIL — no sourceUrl, verifiedDate, verifier, approvalStatus
+  - Content ownership:            FAIL — no designated content owner per tenant
+  - Content review cycle:         FAIL — no scheduled review process
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -707,6 +748,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 16: legal review of stub pages complete — 9 findings, 2 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 15: demo environment deployment assessment complete)
-**Next review:** After Prompt 17 (content approval workflow)
+**Updated:** 2026-09-14 (Prompt 17: content approval workflow complete — 8 findings, 3 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 16: legal review of stub pages complete)
+**Next review:** After Prompt 18 (first tenant verification)

@@ -36,7 +36,7 @@ export default function RootLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:bg-white focus:p-2"
         >
-          Skip to main content
+          Pereiti prie pagrindinio turinio
         </a>
         <main id="main-content">{children}</main>
       </body>

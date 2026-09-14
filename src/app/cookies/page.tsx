@@ -51,15 +51,12 @@ export default function CookiesPage() {
             <li><strong>cookie_consent</strong> — jūsų sutikimo su slapukais būsena (galioja 6 mėn.)</li>
           </ul>
 
-          <h3 className="text-xl font-medium mt-6 mb-3">Analitiniai slapukai (su sutikimu)</h3>
+          <h3 className="text-xl font-medium mt-6 mb-3">Analitiniai duomenys (su sutikimu)</h3>
           <p className="text-gray-700">
-            Šie slapukai renka informaciją apie tai, kaip lankytojai naudojasi svetaine.
-            Jie aktyvuojami tik gavus jūsų sutikimą.
+            Svetainė naudoja savarankišką analitikos sistemą (ne trečiųjų šalių SDK).
+            Analitiniai duomenys renkami tik gavus jūsų sutikimą per naršyklės localStorage.
+            Jokie trečiųjų šalių slapukai nėra nustatomi.
           </p>
-          <ul className="list-disc list-inside space-y-2 text-gray-700 mt-2">
-            <li><strong>_ga</strong> — Google Analytics lankytojų identifikatorius (galioja 2 metus)</li>
-            <li><strong>_gid</strong> — Google Analytics sesijos identifikatorius (galioja 24 val.)</li>
-          </ul>
         </section>
 
         <section>
@@ -76,9 +73,10 @@ export default function CookiesPage() {
         <section>
           <h2 className="text-2xl font-semibold mt-8 mb-4">4. Sutikimas</h2>
           <p className="text-gray-700">
-            Pirmąkart apsilankę svetainėje, matysite slapukų juostą, kurioje galėsite pasirinkti,
-            kokius slapukus leidžiate naudoti. Būtinieji slapukai įrašomi automatiškai, nes jie
-            yra būtini svetainės funkcionavimui. Analitiniai slapukai aktyvuojami tik su jūsų sutikimu.
+            Analitiniai duomenys renkami tik tada, kai naršyklės localStorage nustatytas
+            sutikimo požymis (<code>jol-consent-analytics = granted</code>). Vizualus
+            sutikimo valdiklis (slapukų juosta) bus pridėtas ateityje.
+            Būtinieji slapukai įrašomi automatiškai, nes jie yra būtini svetainės funkcionavimui.
           </p>
         </section>
 

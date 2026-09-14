@@ -128,8 +128,9 @@ function skipLinkTargets(content: string): string[] {
     const href = a.match(/href="#([\w:-]+)"/);
     if (!href) continue;
     // A skip link is an anchor to an in-page fragment whose accessible text or
-    // styling identifies it as a bypass block.
-    if (/skip/i.test(a) && href[1]) targets.push(href[1]);
+    // styling identifies it as a bypass block. Multi-language: en 'skip',
+    // lt 'pereiti', ru 'перейти'.
+    if (/skip|pereiti|перейти/i.test(a) && href[1]) targets.push(href[1]);
   }
   return targets;
 }
@@ -192,7 +193,7 @@ function scanApp(appDir: string, label: string): Violation[] {
       violations.push({
         file: show(rootLayout),
         rule: 'DS-A11Y-07',
-        detail: 'root layout must include a skip link (href="#target", text matching /skip/i)',
+        detail: 'root layout must include a skip link (href="#target", text matching skip/pereiti/перейти)',
       });
     } else {
       // The fragment must exist in the composed document.

@@ -83,7 +83,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
                 {h(block.body as { lt: string; en?: string; ru?: string })}
               </p>
             )}
-            <a href="#mass-schedule" className="mt-8 inline-block px-6 py-3 bg-amber-600 text-white rounded hover:bg-amber-700">
+            <a href="#mass-schedule" className="mt-8 inline-block px-6 py-3 bg-amber-700 text-white rounded hover:bg-amber-800">
               {resolveLocale({ lt: 'Šv. Mišių tvarkaraštis', en: 'Mass Schedule', ru: 'Расписание Месс' }, locale)}
             </a>
           </div>
@@ -271,14 +271,14 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
               {(block.directionsUrl as string | undefined) && (
                 <TrackedLink
                   href={block.directionsUrl as string}
-                  className="inline-block px-6 py-3 bg-amber-600 text-white rounded hover:bg-amber-700"
+                  className="inline-block px-6 py-3 bg-amber-700 text-white rounded hover:bg-amber-800"
                   eventPath="/"
                   eventDestination={block.directionsUrl as string}
                 >
                   {resolveLocale({ lt: 'Gauti nurodymus', en: 'Get Directions', ru: 'Получить направление' }, locale)}
                 </TrackedLink>
               )}
-              <p className="mt-3 text-xs text-gray-400">
+              <p className="mt-3 text-xs text-gray-600">
                 {resolveLocale({
                   lt: 'Savarankiški žemėlapiai — jokių trečiųjų šalių SDK',
                   en: 'Self-hosted maps — no third-party SDK',
@@ -295,7 +295,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
         <section className="py-12 px-4" aria-label="Actions">
           <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-center">
             {(block.links as Array<{ label: { lt: string; en?: string; ru?: string }; href: string }>).map((link, i) => (
-              <a key={i} href={link.href} className="px-6 py-3 bg-amber-600 text-white rounded hover:bg-amber-700">
+              <a key={i} href={link.href} className="px-6 py-3 bg-amber-700 text-white rounded hover:bg-amber-800">
                 {h(link.label)}
               </a>
             ))}

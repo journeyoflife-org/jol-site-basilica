@@ -101,6 +101,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `src/app/cookies/page.tsx`: removed false Google Analytics cookie list (`_ga`,
+  `_gid`) — site uses self-hosted analytics, not Google. Replaced with accurate
+  self-hosted analytics description. Removed false cookie banner promise;
+  replaced with accurate localStorage consent mechanism description (FI-1, FI-5).
+- `src/app/accessibility-statement/page.tsx`: removed false NVDA/VoiceOver/
+  TalkBack testing claims. Replaced with accurate statement about automated
+  source-level checks and planned AT testing (FI-2).
+- `src/app/privacy/page.tsx`: separated cookies from analytics data collection.
+  Accurate description of self-hosted analytics with localStorage consent (FI-4).
+- `src/app/page.tsx`: `bg-amber-600` → `bg-amber-700` on CTA buttons (contrast
+  ~4.6:1, passes WCAG AA). `text-gray-400` → `text-gray-600` on map text
+  (contrast ~7.0:1, passes WCAG AA). Hover state updated to `bg-amber-800`.
+- `src/app/layout.tsx`: skip link text localized to Lithuanian
+  ("Pereiti prie pagrindinio turinio").
+- `scripts/check-a11y-pages.ts`: skip link detection regex updated from
+  `/skip/i` to `/skip|pereiti|перейти/i` for multi-language support.
 - `src/app/page.tsx`: `BASE_URL` now reads `NEXT_PUBLIC_SITE_URL` environment
   variable with `http://localhost:3000` fallback, instead of being hardcoded to
   the production URL. Prevents canonical URL leakage when demo/staging
@@ -120,6 +136,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Phase 8A + A11Y P0/P1 executed —
+  4 factual errors fixed, 2 contrast failures fixed, skip link localized.
+  Gate qualification: legal factual accuracy PASS, contrast PASS.
 - Professional opinion updated (2026-09-14): Prompt 9 accessibility/WAD
   assessment complete — 2 contrast failures, 6 issues total, WAD likely
   not applicable. Gate qualification updated with accessibility static PASS,

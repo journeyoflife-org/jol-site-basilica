@@ -102,13 +102,10 @@ export default function AccessibilityStatementPage() {
             <li>WCAG 2.2 AA lygio tikslas</li>
           </ul>
           <p className="text-gray-700 mt-4">
-            Svetainė testuota su šiomis pagalbinėmis technologijomis:
+            Automatiniai source lygio patikrinimai vykdomi kiekvieno pakeitimo metu.
+            Pilnas testavimas su pagalbinėmis technologijomis (NVDA, VoiceOver, TalkBack)
+            suplanuotas, bet dar neatliktas.
           </p>
-          <ul className="list-disc list-inside space-y-2 text-gray-700 mt-2">
-            <li>NVDA (Windows)</li>
-            <li>VoiceOver (macOS / iOS)</li>
-            <li>TalkBack (Android)</li>
-          </ul>
         </section>
       </div>
 

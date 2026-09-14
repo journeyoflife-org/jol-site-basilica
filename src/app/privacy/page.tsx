@@ -45,7 +45,8 @@ export default function PrivacyPage() {
           </p>
           <ul className="list-disc list-inside space-y-2 text-gray-700 mt-4">
             <li><strong>Tekniniai duomenys:</strong> IP adresas, naršyklės tipas, įrenginio informacija (automatiškai surenkami)</li>
-            <li><strong>Slapukai:</strong> būtinieji slapukai svetainės funkcionavimui, analitiniai slapukai (su sutikimu)</li>
+            <li><strong>Slapukai:</strong> būtinieji slapukai svetainės funkcionavimui</li>
+            <li><strong>Analitiniai duomenys:</strong> savarankiška analitikos sistema (be trečiųjų šalių SDK), renkama tik su jūsų sutikimu per naršyklės localStorage</li>
             <li><strong>Kontaktiniai duomenys:</strong> jei susisiekiate el. paštu ar per kontaktinę formą</li>
           </ul>
         </section>

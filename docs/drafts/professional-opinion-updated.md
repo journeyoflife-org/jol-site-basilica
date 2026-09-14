@@ -147,6 +147,7 @@ organized into 6 sections.
 
 **Specification:** `docs/specs/basilica-frontend-spec.md`
 **Discovery answers:** `docs/drafts/discovery-answers.md` — evidence-backed answers to 50+ discovery questions covering business/product, technical architecture, design/UX, content/localization, SEO/analytics, and GitHub/DevOps. All answers are sourced from code, configuration, or architecture documents.
+**Phase 2 execution plan review:** `docs/drafts/professional-opinion-phase2-plan-review.md` — review of the 21-prompt execution plan (Prompts 0-20), re-sequenced to reflect completed items (BF-5 resolved, canonical renderer decided, fixtures committed). Revised effort estimate: 51-73 hours (7-10 senior engineering days).
 
 ### Page Structure
 

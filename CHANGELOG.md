@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/professional-opinion-phase2-plan-review.md` — review of the 21-prompt
+  execution plan (Prompts 0-20). Re-sequenced to reflect completed items:
+  BF-5 resolved (12 packages published), canonical renderer decided (hub
+  template-renderer), fixture corrections committed, spoke SEO deduplicated.
+  Converted design tasks to retrospective audits where appropriate.
+  Revised effort estimate: 51-73 hours (7-10 senior engineering days).
+  Identifies critical path: noindex validation → demo environment →
+  TemplateRenderer packaging → first tenant verification → production readiness.
 - `docs/drafts/discovery-answers.md` — evidence-backed answers to 50+ discovery
   questions for the basilica frontend specification. Covers 6 categories:
   business/product, technical architecture, design/UX, content/localization,

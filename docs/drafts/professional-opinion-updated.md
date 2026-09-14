@@ -330,6 +330,37 @@ The a11y-static gate's skip link detection regex updated from `/skip/i` to `/ski
 - Tests: 46/46 passed
 - Build: exit 0, 7/7 pages generated
 
+## Prompt 10 — SEO Audit (2026-09-14)
+
+Comprehensive SEO audit completed. 11 findings identified (4 HIGH, 3 MEDIUM, 4 LOW).
+
+**Full report:** `docs/drafts/seo-audit.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| **HIGH** | 4 | Meta language mismatch, home page missing fixture metadata, zero OG/Twitter tags |
+| MEDIUM | 3 | No WebSite JSON-LD, missing openingHours in churchEntity, legal pages lack canonical |
+| LOW | 4 | No BreadcrumbList on legal pages, no sitemap/robots routes (correct for pre-production) |
+
+### What Works Well
+
+- JSON-LD structured data: churchEntity, massEventEntity, breadcrumbListEntity — all consuming `@journeyoflife-org/seo@1.1.0`, 19 unit tests passing
+- Canonical URL on home page: environment-aware (`NEXT_PUBLIC_SITE_URL`)
+- Hreflang: correctly does NOT advertise non-existent `/en`/`/ru` routes
+- Three-layer noindex protection: meta + header + robots.txt
+
+### What Needs Fixing Before Production
+
+1. **Meta metadata (SEO-1/2/3):** Root layout title/description in English, site lang is Lithuanian. Home page doesn't emit fixture-based metadata. Hub builders (`tenantTitleTemplate`, `clampDescription`) available but unused.
+2. **Open Graph / Twitter Cards (SEO-4):** Zero social sharing tags on any page. Hub provides `openGraphFor()`, `resolveOgImage()`, `twitterCardFor()` — all unused. Requires OG image generation.
+3. **Canonical URLs on legal pages (SEO-7):** No `<link rel="canonical">` on `/privacy`, `/cookies`, `/accessibility-statement`.
+
+### Hub SEO Package Utilization
+
+The hub `@journeyoflife-org/seo@1.1.0` exports 30+ functions. The spoke consumes only 3 (churchEntity, massEventEntity, breadcrumbListEntity). The remaining 27+ exports cover canonicals, hreflang, metadata policy, OG/Twitter, sitemap, robots, IndexNow — all production-ready but unused.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -353,6 +384,12 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Accessibility (contrast):   PASS — A11Y-1, A11Y-2 fixed (bg-amber-700, text-gray-600)
   - Accessibility (skip link):  PASS — localized to Lithuanian, gate regex updated for multi-language
   - WAD applicability:          LIKELY NOT APPLICABLE — religious organization, not public sector body
+  - SEO (JSON-LD):              PASS — churchEntity, massEventEntity, breadcrumbListEntity from hub
+  - SEO (canonical):            PARTIAL — home page ✅, legal pages ❌ (no canonical)
+  - SEO (hreflang):             PASS — correct for single-locale, no invalid targets
+  - SEO (meta metadata):        FAIL — English titles/descriptions on Lithuanian site, home page missing fixture metadata
+  - SEO (OG/Twitter):           FAIL — zero social sharing tags
+  - SEO (sitemap):              NOT READY — correct for pre-production
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -433,6 +470,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 9: accessibility/WAD assessment complete)
-**Prior assessment:** 2026-09-14 (Prompt 8: legal pages audit + implementation plan)
-**Next review:** After Prompt 10 (SEO audit)
+**Updated:** 2026-09-14 (Prompt 10: SEO audit complete — 11 findings, 4 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 9: accessibility/WAD assessment complete)
+**Next review:** After Prompt 11 (analytics/consent audit)

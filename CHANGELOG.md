@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/legal-review-stub-pages-assessment.md` — legal review of stub pages
+  assessment (Prompt 16). 9 findings (2 HIGH, 4 MEDIUM, 3 LOW). Privacy policy missing
+  Art. 6 legal basis, retention periods, DPO contact. All pages Lithuanian-only
+  (site supports lt/en/ru). Cookie banner not yet implemented. Requires lawyer review
+  for Art. 6, retention, DPO, WAD applicability. Full report:
+  docs/drafts/legal-review-stub-pages-assessment.md.
 - `docs/drafts/demo-environment-deployment-assessment.md` — demo environment deployment
   assessment (Prompt 15). 7 findings (3 HIGH, 2 MEDIUM, 2 LOW). No Dockerfile, no
   deploy workflow, no deploy/rollback scripts. 3-layer indexing protection complete
@@ -154,6 +160,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 16 legal review of stub pages
+  complete — 9 findings (2 HIGH, 4 MEDIUM, 3 LOW). Privacy policy missing Art. 6,
+  retention, DPO. All pages Lithuanian-only. Requires lawyer review. Full report:
+  docs/drafts/legal-review-stub-pages-assessment.md.
 - Professional opinion updated (2026-09-14): Prompt 15 demo environment deployment
   assessment complete — 7 findings (3 HIGH, 2 MEDIUM, 2 LOW). No Dockerfile, no
   deploy workflow. 3-layer indexing protection complete. Demo READY (2-3 hours on

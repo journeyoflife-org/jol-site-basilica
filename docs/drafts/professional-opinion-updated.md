@@ -535,6 +535,45 @@ Production deployment should begin only after:
 - TemplateRenderer packaging is complete
 - Parish sign-off is obtained
 
+## Prompt 16 — Legal Review of Stub Pages (2026-09-14)
+
+Legal review assessment completed. 9 findings identified (2 HIGH, 4 MEDIUM, 3 LOW).
+
+**Full report:** `docs/drafts/legal-review-stub-pages-assessment.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| HIGH | 2 | No legal basis for processing (Art. 6), no retention periods, Lithuanian-only pages |
+| MEDIUM | 4 | No DPO contact, no right to withdraw consent, no DPA complaint right, no cookie banner |
+| LOW | 3 | Illustrative cookie names, no test method, "partially compliant" claim may be inaccurate |
+
+### What Works Well
+
+- **Structurally sound:** Pages reference fixture data correctly (tenant-aware)
+- **Legal-review banners:** Explicit warnings that pages require lawyer review
+- **Phase 8A completed:** Factual errors already fixed (false Google Analytics cookies, false NVDA/VoiceOver/TalkBack claims, false cookie banner promise)
+- **e-Privacy compliance:** Cookies policy accurately describes self-hosted analytics, no third-party SDKs
+
+### What Requires Lawyer Review
+
+1. **Legal basis for processing (Art. 6)** — must specify consent, legitimate interest, etc.
+2. **Retention periods** — must specify how long each data category is kept
+3. **DPO requirement** — may be required if processing Art. 9 data (religious affiliation)
+4. **WAD applicability** — lawyer must determine if Web Accessibility Directive applies to religious organizations
+
+### What Can Be Fixed Technically
+
+5. **Cookie banner** — implement consent UI (2-3 hours)
+6. **Cookie names** — update to match actual implementation (30 min)
+7. **Accessibility test method** — add section explaining automated source-level checks (30 min)
+8. **Translations** — add English and Russian versions (4-6 hours, requires translation)
+
+### Recommendation
+
+Engage a lawyer specializing in Lithuanian data protection law to review the privacy policy and determine Art. 6 legal bases, retention periods, DPO requirement, and WAD applicability. Simultaneously, implement the cookie banner and add English/Russian translations.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -584,6 +623,10 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Demo deployment (canonical):  PASS — NEXT_PUBLIC_SITE_URL controls canonical (env-aware)
   - Demo deployment (infra):      FAIL — no Dockerfile, no deploy workflow, no deploy scripts
   - Production deployment:        FAIL — 12-15 hours additional work required
+  - Legal pages (privacy):        FAIL — no Art. 6 legal basis, no retention periods, no DPO
+  - Legal pages (cookies):        PARTIAL — accurate but no cookie banner UI
+  - Legal pages (accessibility):  PARTIAL — "partially compliant" claim may be inaccurate
+  - Legal pages (translations):   FAIL — Lithuanian-only, site supports lt/en/ru
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -664,6 +707,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 15: demo environment deployment assessment complete — 7 findings, 3 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 14: TemplateRenderer packaging assessment complete)
-**Next review:** After Prompt 16 (legal review of stub pages)
+**Updated:** 2026-09-14 (Prompt 16: legal review of stub pages complete — 9 findings, 2 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 15: demo environment deployment assessment complete)
+**Next review:** After Prompt 17 (content approval workflow)

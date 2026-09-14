@@ -146,6 +146,7 @@ Basilica template, targeting approximately 20 page types consolidated into **16 
 organized into 6 sections.
 
 **Specification:** `docs/specs/basilica-frontend-spec.md`
+**Discovery answers:** `docs/drafts/discovery-answers.md` — evidence-backed answers to 50+ discovery questions covering business/product, technical architecture, design/UX, content/localization, SEO/analytics, and GitHub/DevOps. All answers are sourced from code, configuration, or architecture documents.
 
 ### Page Structure
 

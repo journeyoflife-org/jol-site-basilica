@@ -698,6 +698,48 @@ Comprehensive readiness review completed. Synthesis of 62 findings across 11 aud
 
 Deploy demo to Vercel immediately for stakeholder review. Simultaneously engage lawyer for GDPR review and begin TemplateRenderer packaging. Do not deploy to production until legal, architectural, and content governance blockers are resolved.
 
+## Prompt 20 — Final Sign-Off (2026-09-14)
+
+Final engagement sign-off completed. Comprehensive summary of all 20 prompts (0-19) delivered.
+
+**Full report:** `docs/drafts/final-signoff.md`
+
+### Engagement Statistics
+
+| Metric | Value |
+|---|---|
+| Total prompts executed | 20 (Prompts 0-19) |
+| Total commits | 25 (94ee21e → 6ed0a72) |
+| Audit reports produced | 11 |
+| Specifications/reviews | 4 |
+| Governance documents | 4 |
+| Code fix commits | 3 |
+| Total findings | 62 (14 HIGH, 22 MEDIUM, 26 LOW) |
+| Documents in docs/drafts/ | 20 |
+
+### Final Gate Qualification
+
+| Category | Status |
+|---|---|
+| Build / Test / Type-check | ✅ ALL PASS |
+| Payment boundary | ✅ PASS (ADR-009 Model A) |
+| Indexing protection | ✅ PASS (3-layer defense) |
+| First tenant verification | ✅ PASS (Vilnius Cathedral) |
+| JSON-LD / Canonical / Hreflang | ✅ PASS |
+| Legal pages | ❌ FAIL (requires lawyer) |
+| TemplateRenderer packaging | ❌ FAIL (private app, not package) |
+| Content approval workflow | ❌ FAIL (no workflow) |
+| Production deployment | ❌ FAIL (no infra) |
+
+### Final Assessment
+
+- **Demo environment:** READY (3-4 hours on Vercel)
+- **Production environment:** NOT READY (49-73 hours additional work)
+
+### Recommendation
+
+Deploy demo to Vercel immediately. Simultaneously engage lawyer for GDPR review and begin TemplateRenderer packaging. Do not deploy to production until legal, architectural, and content governance blockers are resolved.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -838,6 +880,7 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 19: comprehensive readiness review complete — 62 findings across 11 audits)
-**Prior assessment:** 2026-09-14 (Prompt 18: first tenant verification complete)
-**Next review:** After Prompt 20 (final sign-off)
+**Updated:** 2026-09-14 (Prompt 20: final sign-off — engagement complete)
+**Prior assessment:** 2026-09-14 (Prompt 19: comprehensive readiness review)
+**Engagement status:** COMPLETE — 20 prompts executed, 25 commits, 62 findings documented
+**Next review:** Post-engagement — demo deployment, lawyer review, TemplateRenderer packaging

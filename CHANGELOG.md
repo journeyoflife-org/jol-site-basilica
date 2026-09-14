@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/legal-pages-implementation-plan.md` — legal pages audit and
+  5-phase implementation plan (Prompt 8). Identifies 5 factual inconsistencies:
+  cookie policy describes non-existent Google Analytics cookies (FI-1),
+  accessibility statement claims unperformed assistive-technology testing (FI-2),
+  privacy/cookies pages reference consent UX that does not exist (FI-4, FI-5).
+  Separates technical concerns (engineering) from legal content (professional
+  review required). Proposes fixture schema extension for tenant-aware legal
+  pages and hub renderer port plan.
 - `public/robots.txt` — static `Disallow: /` for all crawlers (INV-SEO-02).
   Defense-in-depth layer alongside layout.tsx meta tag and X-Robots-Tag header.
   Replace with `app/robots.ts` dynamic route when ready for production indexing.
@@ -104,6 +112,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 8 legal pages audit
+  complete — 5 factual errors identified, 5-phase implementation plan
+  documented. Gate qualification updated: legal factual accuracy FAIL.
 - Professional opinion updated (2026-09-14): Prompt 1 indexing protection
   audit complete — 3-layer defense-in-depth (meta + header + robots.txt),
   environment-aware canonical URL, RSC boundary fix. Gate qualification

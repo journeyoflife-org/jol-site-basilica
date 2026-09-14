@@ -241,6 +241,35 @@ Audit and remediation of all indexing controls completed. **Verdict: defense-in-
 - Tests: 46/46 passed (3 suites)
 - Build: exit 0, 7/7 static pages generated
 
+## Prompt 8 — Legal Pages Implementation Plan (2026-09-14)
+
+Audit of all 3 legal pages completed. **Verdict: factual errors found, plan documented.**
+
+### Key Findings
+
+| ID | Issue | Severity |
+|---|---|---|
+| FI-1 | Cookie policy lists `_ga`/`_gid` Google Analytics cookies, but site uses self-hosted analytics — **describes cookies that don't exist** | HIGH |
+| FI-2 | Accessibility statement claims NVDA/VoiceOver/TalkBack testing — **no e2e tests exist** | HIGH |
+| FI-4 | Privacy policy references "analitiniai slapukai" with consent — **no consent UX exists** | MEDIUM |
+| FI-5 | Cookie policy promises a "slapukų juostą" (cookie banner) — **not implemented** | MEDIUM |
+| — | Hub renderer has **zero legal pages** — will lose them when spoke renderer is retired | HIGH |
+| — | Fixture schema has **no legal page fields** — legal content is not tenant-aware | MEDIUM |
+
+### Plan (5 phases)
+
+- **8A** (1-2h): Fix factual errors — remove false claims, no legal review needed
+- **8B** (2-3h): Technical hardening — explicit robots metadata, cross-links, localization
+- **8C** (2-3h): Schema extension — add `legalPages` to tenant fixture (hub change)
+- **8D** (3-4h): Hub renderer port — legal pages must exist before spoke retirement
+- **8E** (external): Professional legal review — timeline uncontrollable
+
+**Plan document:** `docs/drafts/legal-pages-implementation-plan.md`
+
+### Professional Opinion on Legal Risk
+
+The factual inconsistencies (FI-1 through FI-5) are a **regulatory liability**, not a design choice. A cookie policy that describes cookies the site does not set violates the e-Privacy Directive's transparency requirement. An accessibility statement that claims testing with assistive technologies that were never used violates EU 2016/2102 Art. 7. **Phase 8A should be executed immediately** — it requires no legal expertise, only factual accuracy.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -258,7 +287,8 @@ Local fixture-level gates:     PASSING
   - build:                      EXIT 0 (7/7 pages)
 
 Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
-  - Legal review:               Not done
+  - Legal review:               Not done (5 factual errors identified — Prompt 8A pending)
+  - Legal factual accuracy:     FAIL — cookie policy describes non-existent cookies (FI-1), a11y statement claims unperformed testing (FI-2)
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -339,6 +369,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 1: indexing protection audit + remediation complete)
-**Prior assessment:** 2026-09-14 (Frontend scope analysis + P1 governance items completed)
-**Next review:** After Prompt 2 (demo environment deployment)
+**Updated:** 2026-09-14 (Prompt 8: legal pages audit + implementation plan)
+**Prior assessment:** 2026-09-14 (Prompt 1: indexing protection audit + remediation)
+**Next review:** After Prompt 9 (accessibility/WAD assessment)

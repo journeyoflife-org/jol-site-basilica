@@ -26,7 +26,7 @@
  */
 import fixture from '@/fixtures/tenant.json';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
-import { buildChurchEntity, buildMassEvent, buildBreadcrumb } from '@/lib/json-ld';
+import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
 import { trackEvent } from '@/lib/analytics';
 
 const BASE_URL = 'https://basilica-vilnius-cathedral.gyvenimo-kelias.lt';
@@ -321,19 +321,21 @@ export default function Home() {
 
   // JSON-LD structured data
   const address = parseAddress(fixture.identity?.address ?? '');
-  const churchJsonLd = buildChurchEntity({
+  const churchJsonLd = churchEntity({
+    kind: 'basilica',
+    preciseCatholic: true,
     name: resolveLocale(fixture.name, locale),
     url: BASE_URL,
     address,
     geo: { latitude: 54.6862, longitude: 25.2903 },
     telephone: fixture.identity?.phone,
     description: resolveLocale(fixture.tagline, locale),
-    parentOrg: {
+    parent: {
       name: fixture.identity?.jurisdiction ?? 'Vilnius Archdiocese',
     },
   });
 
-  const breadcrumbJsonLd = buildBreadcrumb([
+  const breadcrumbJsonLd = breadcrumbListEntity([
     { name: resolveLocale({ lt: 'Pradžia', en: 'Home', ru: 'Главная' }, locale), url: BASE_URL },
   ]);
 
@@ -348,7 +350,7 @@ export default function Home() {
           startDate: string;
         }>) || []
       ).map((m) =>
-        buildMassEvent({
+        massEventEntity({
           name: `Šv. Mišios — ${m.dayEn ?? m.day} ${m.time}`,
           startDate: m.startDate,
           location: { name: resolveLocale(fixture.name, locale), address },

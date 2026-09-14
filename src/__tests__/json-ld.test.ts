@@ -1,8 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { buildChurchEntity, buildMassEvent, buildBreadcrumb } from '@/lib/json-ld';
+import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
 
-describe('buildChurchEntity', () => {
+describe('churchEntity', () => {
   const baseInput = {
+    kind: 'basilica' as const,
+    preciseCatholic: true,
     name: 'Vilniaus arkikatedra bazilika',
     url: 'https://katedra.lt',
     address: {
@@ -14,23 +16,23 @@ describe('buildChurchEntity', () => {
   };
 
   it('emits correct @context', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result['@context']).toBe('https://schema.org');
   });
 
-  it('emits Church, CatholicChurch, PlaceOfWorship types', () => {
-    const result = buildChurchEntity(baseInput);
+  it('emits Church, CatholicChurch, PlaceOfWorship types for basilica with preciseCatholic', () => {
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result['@type']).toEqual(['Church', 'CatholicChurch', 'PlaceOfWorship']);
   });
 
   it('includes name and url', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result.name).toBe('Vilniaus arkikatedra bazilika');
     expect(result.url).toBe('https://katedra.lt');
   });
 
   it('includes PostalAddress with correct fields', () => {
-    const result = buildChurchEntity(baseInput) as any;
+    const result = churchEntity(baseInput) as any;
     expect(result.address['@type']).toBe('PostalAddress');
     expect(result.address.streetAddress).toBe('Katedros a. 2');
     expect(result.address.addressLocality).toBe('Vilnius');
@@ -39,12 +41,12 @@ describe('buildChurchEntity', () => {
   });
 
   it('omits geo when not provided', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result).not.toHaveProperty('geo');
   });
 
   it('includes geo when provided', () => {
-    const result = buildChurchEntity({
+    const result = churchEntity({
       ...baseInput,
       geo: { latitude: 54.6862, longitude: 25.2903 },
     }) as any;
@@ -54,27 +56,27 @@ describe('buildChurchEntity', () => {
   });
 
   it('omits telephone when not provided', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result).not.toHaveProperty('telephone');
   });
 
   it('includes telephone when provided', () => {
-    const result = buildChurchEntity({
+    const result = churchEntity({
       ...baseInput,
       telephone: '+370 5 261 0731',
-    });
+    }) as Record<string, unknown>;
     expect(result.telephone).toBe('+370 5 261 0731');
   });
 
   it('omits parentOrganization when not provided', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result).not.toHaveProperty('parentOrganization');
   });
 
   it('includes parentOrganization as ReligiousOrganization', () => {
-    const result = buildChurchEntity({
+    const result = churchEntity({
       ...baseInput,
-      parentOrg: { name: 'Vilniaus arkivyskupija', url: 'https://vilnensis.lt' },
+      parent: { name: 'Vilniaus arkivyskupija', url: 'https://vilnensis.lt' },
     }) as any;
     expect(result.parentOrganization['@type']).toBe('ReligiousOrganization');
     expect(result.parentOrganization.name).toBe('Vilniaus arkivyskupija');
@@ -82,45 +84,55 @@ describe('buildChurchEntity', () => {
   });
 
   it('omits image when not provided', () => {
-    const result = buildChurchEntity(baseInput);
+    const result = churchEntity(baseInput) as Record<string, unknown>;
     expect(result).not.toHaveProperty('image');
   });
 
   it('includes image when provided', () => {
-    const result = buildChurchEntity({
+    const result = churchEntity({
       ...baseInput,
       image: '/images/exterior.jpg',
-    });
+    }) as Record<string, unknown>;
     expect(result.image).toBe('/images/exterior.jpg');
+  });
+
+  it('emits ReligiousOrganization for deanery kind', () => {
+    const result = churchEntity({
+      kind: 'deanery',
+      name: 'Vilniaus dekanatas',
+      url: 'https://example.lt',
+      address: { streetAddress: 'Test g. 1', addressLocality: 'Vilnius' },
+    }) as Record<string, unknown>;
+    expect(result['@type']).toBe('ReligiousOrganization');
   });
 });
 
-describe('buildMassEvent', () => {
+describe('massEventEntity', () => {
   it('emits Event type with correct context', () => {
-    const result = buildMassEvent({
+    const result = massEventEntity({
       name: 'Šv. Mišios',
       startDate: '2026-09-13T10:00:00',
       location: {
         name: 'Vilniaus arkikatedra bazilika',
         address: { streetAddress: 'Katedros a. 2', addressLocality: 'Vilnius' },
       },
-    });
+    }) as Record<string, unknown>;
     expect(result['@context']).toBe('https://schema.org');
     expect(result['@type']).toBe('Event');
   });
 
   it('includes name and startDate', () => {
-    const result = buildMassEvent({
+    const result = massEventEntity({
       name: 'Šv. Mišios',
       startDate: '2026-09-13T10:00:00',
       location: { name: 'Katedra', address: {} },
-    });
+    }) as Record<string, unknown>;
     expect(result.name).toBe('Šv. Mišios');
     expect(result.startDate).toBe('2026-09-13T10:00:00');
   });
 
   it('includes location as Place with PostalAddress', () => {
-    const result = buildMassEvent({
+    const result = massEventEntity({
       name: 'Šv. Mišios',
       startDate: '2026-09-13T10:00:00',
       location: {
@@ -135,15 +147,15 @@ describe('buildMassEvent', () => {
   });
 });
 
-describe('buildBreadcrumb', () => {
+describe('breadcrumbListEntity', () => {
   it('emits BreadcrumbList with correct context', () => {
-    const result = buildBreadcrumb([{ name: 'Home', url: '/' }]);
+    const result = breadcrumbListEntity([{ name: 'Home', url: '/' }]) as Record<string, unknown>;
     expect(result['@context']).toBe('https://schema.org');
     expect(result['@type']).toBe('BreadcrumbList');
   });
 
   it('maps items to ListItem with 1-based positions', () => {
-    const result = buildBreadcrumb([
+    const result = breadcrumbListEntity([
       { name: 'Home', url: '/' },
       { name: 'Privacy', url: '/privacy' },
     ]) as any;
@@ -157,7 +169,7 @@ describe('buildBreadcrumb', () => {
   });
 
   it('handles empty items array', () => {
-    const result = buildBreadcrumb([]) as any;
+    const result = breadcrumbListEntity([]) as any;
     expect(result.itemListElement).toHaveLength(0);
   });
 });

@@ -139,6 +139,75 @@ The project should not be published as a production public site. A controlled de
     with the organization and the payment provider regardless of the
     hosted-payment-link model.
 
+## Frontend Scope Analysis (2026-09-14)
+
+A complete frontend product specification has been drafted for the Roman Catholic
+Basilica template, targeting approximately 20 page types consolidated into **16 core pages**
+organized into 6 sections.
+
+**Specification:** `docs/specs/basilica-frontend-spec.md`
+
+### Page Structure
+
+```
+Home
+├── About (History, Architecture & Art, Clergy & Staff)
+├── Worship (Mass Schedule, Confession, Sacraments, Liturgical Calendar)
+├── Community (Parish Services, Events, News)
+├── Visit (Visitor Info, Hours, Location & Directions, Pilgrimage)
+├── Gallery
+├── Resources (Documents & Downloads)
+├── Support (Donations & GPM)
+├── Contact
+├── FAQ
+├── Search
+└── Legal (Privacy, Cookies, Accessibility Statement)
+```
+
+### Primary User Groups
+
+1. **Parishioners** — mass schedules, sacraments, announcements
+2. **Visitors/Tourists** — opening hours, visitor info, architecture, history
+3. **Pilgrims** — pilgrimage info, confession, spiritual services
+4. **Sacrament seekers** — baptism/marriage requirements, contacts
+5. **Researchers/Media** — history, documents, contacts
+6. **Pastoral care seekers** — confession, spiritual direction, counseling
+7. **Donors/Supporters** — donation info, GPM allocation
+
+### Pastoral Goals
+
+1. Evangelization — share the faith, attract visitors
+2. Pastoral care — serve parishioners, provide sacraments
+3. Information — schedules, events, announcements
+4. Community building — news, events, parish life
+5. Heritage preservation — history, architecture, art
+6. Fundraising — donations, GPM allocation
+7. Legal compliance — privacy, cookies, accessibility
+
+### Key Technical Decisions
+
+- **Hub-and-spoke architecture:** Shared rendering logic in hub packages, tenant-specific content in fixtures
+- **3-locale parity:** lt/en/ru with Lithuanian as primary
+- **WCAG 2.1 AA:** Semantic HTML, ARIA labels, keyboard navigation, focus states, color contrast
+- **Structured data:** JSON-LD (Church, PlaceOfWorship, Event, BreadcrumbList)
+- **Tenant customization:** Fixture-driven content, shared rendering logic
+- **Component library:** 13 new components needed (ScheduleTable, Gallery, MapEmbed, ContactForm, DonationWidget, EventCard, NewsCard, FAQAccordion, BreadcrumbNav, LanguageSwitcher, SearchBar, ClergyCard, SacramentInfo)
+
+### Implementation Phases
+
+- **Phase 1 (P0):** Foundation — package TemplateRenderer, core components, page templates
+- **Phase 2 (P1):** Community — Parish Services, Events, News, ContactForm, FAQ
+- **Phase 3 (P2):** Resources & Support — Documents, Donations & GPM
+- **Phase 4 (P3):** Search & Polish — site-wide search, 404 page, performance optimization
+
+### Risks
+
+- TemplateRenderer packaging is a prerequisite for spoke to consume hub renderer
+- Missing images/media require parish licensing
+- Bitrix24 integration may require fallback to mailto:
+- Translation backlog (408 `ru` markers) may require disabling `ru` locale
+- Legal review pending for privacy/cookies/accessibility pages
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -234,6 +303,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (P1 governance items completed)
-**Prior assessment:** 2026-09-13 (P0 items + BF-5 resolution)
-**Next review:** After P2 content governance items are addressed
+**Updated:** 2026-09-14 (Frontend scope analysis + P1 governance items completed)
+**Prior assessment:** 2026-09-14 (P1 governance items completed)
+**Next review:** After Phase 1 implementation (foundation)

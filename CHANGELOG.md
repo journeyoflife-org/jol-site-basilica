@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/specs/basilica-frontend-spec.md` — complete frontend product specification
+  for the Roman Catholic Basilica template. Consolidates 20 proposed page types
+  into 16 core pages organized into 6 sections (Home, About, Worship, Community,
+  Visit, Resources, Support, Contact, Legal). Covers: user groups, pastoral goals,
+  information architecture, content model, navigation structure, reusable page
+  templates, required components (13 new), integrations, SEO requirements
+  (structured data, hreflang, canonical), accessibility requirements (WCAG 2.1 AA),
+  tenant customization model, and 4-phase implementation plan.
 - `vitest.config.ts` and 3 unit test suites (45 tests):
   - `src/__tests__/resolve-locale.test.ts` — 15 tests for locale resolution,
     hreflang generation, canonical URL building, fallback behaviour.

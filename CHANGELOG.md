@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/drafts/payment-boundary-audit.md` — payment boundary audit (Prompt 13).
+  3 findings (0 HIGH, 2 MEDIUM, 1 LOW). Gate detects 14 PSP SDK patterns with
+  4 self-tests. ADR-009 Model A fully compliant — zero PSP code in spoke.
+  Missing 2 patterns from hub INV-3 (`loadStripe(`, `NEXT_PUBLIC_STRIPE_`).
+  Donation flow correctly absent per ADR-009 §1 (boundary CLOSED until SAQ A).
+  Full report: docs/drafts/payment-boundary-audit.md.
 - `docs/drafts/accessibility-assessment.md` — WCAG 2.2 AA technical audit +
   WAD applicability analysis (Prompt 9). Static gate covers 4 of ~50 WCAG
   criteria. Identifies 2 contrast failures (A11Y-1: `bg-amber-600 text-white`
@@ -136,6 +142,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governance policy documented in hub, TemplateRenderer package migration plan
   created. Gate qualification updated to PARTIALLY PASSING.
 
+- Professional opinion updated (2026-09-14): Prompt 13 payment boundary audit
+  complete — 3 findings (0 HIGH, 2 MEDIUM, 1 LOW). Gate well-engineered (14
+  patterns, 4 self-tests), ADR-009 Model A fully compliant, zero PSP code.
+  Missing 2 patterns documented as deliberate deferral. Full report:
+  docs/drafts/payment-boundary-audit.md. Gate qualification updated with
+  3 payment boundary sub-gates (all PASS).
 - Professional opinion updated (2026-09-14): Prompt 12 content integrity audit
   complete — 6 findings (1 HIGH, 3 MEDIUM, 2 LOW). Mass schedule dates stale,
   CT-03 not implemented, no content provenance. Full report:

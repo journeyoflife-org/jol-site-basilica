@@ -431,6 +431,36 @@ Comprehensive content integrity audit completed. 6 findings identified (1 HIGH, 
 
 The content integrity gate has no self-tests (unlike `check-a11y-pages.ts`). There is no proof the gate catches violations. Adding self-tests would prove the gate is effective.
 
+## Prompt 13 — Payment Boundary Audit (2026-09-14)
+
+Payment boundary audit completed. 3 findings identified (0 HIGH, 2 MEDIUM, 1 LOW).
+
+**Full report:** `docs/drafts/payment-boundary-audit.md`
+
+### Key Findings
+
+| Severity | Count | Description |
+|---|---|---|
+| MEDIUM | 2 | Gate missing 2 patterns from hub INV-3, no donation/GPM page in spoke |
+| LOW | 1 | Gate pattern alignment documented but not yet applied |
+
+### What Works Well
+
+- **Payment boundary gate:** 14 PSP SDK patterns, 4 self-tests, proper error handling
+- **ADR-009 Model A compliance:** Zero PSP SDK imports, zero dependencies, zero keys/endpoints
+- **CI enforcement:** Dual-layered (local verify chain + CI reusable workflow + INV-8 meta-check)
+- **Compliance documentation:** DPIA and ROPA correctly reference ADR-009
+- **Donation flow:** Correctly absent per ADR-009 §1 (boundary CLOSED until SAQ A)
+
+### What Needs Attention
+
+1. **Gate patterns (PB-1):** Missing `loadStripe()` and `NEXT_PUBLIC_STRIPE_` patterns that hub INV-3 detects. Documented deferral requiring cross-spoke authorization.
+2. **GPM page (PB-2):** Informational only (no payment data), can be implemented without touching payment boundary.
+
+### Strongest Compliance Control
+
+The payment boundary is the strongest compliance control in the spoke. The gate is well-engineered, the architecture decision is clear, and enforcement is dual-layered. Zero payment-related code is exactly correct for a pre-SAQ-A state.
+
 ## Gate Qualification
 
 The statement "all gates pass" requires qualification:
@@ -471,6 +501,9 @@ Production-readiness gates:    PARTIALLY PASSING (updated 2026-09-14)
   - Content integrity (assets):   PASS — all local assets exist, placeholders labeled
   - Content provenance:           FAIL — no source/verifier/approval/review tracking
   - Content approval:             FAIL — no parish sign-off workflow
+  - Payment boundary (INV-3):     PASS — 14 PSP patterns, 4 self-tests, zero violations
+  - Payment boundary (ADR-009):   PASS — Model A fully compliant, boundary CLOSED
+  - Payment boundary (CI):        PASS — dual-layered enforcement (local + CI + INV-8)
   - Content approval:           No workflow
   - Canonical renderer:         DECIDED — hub template-renderer
   - Shared packages:            PUBLISHED — 12 @journeyoflife-org/* v1.0.0
@@ -551,6 +584,6 @@ This estimate does **not** include:
 ## Sign-off
 
 **Assessment type:** Release-blocking architecture and readiness assessment
-**Updated:** 2026-09-14 (Prompt 12: content integrity audit complete — 6 findings, 1 HIGH)
-**Prior assessment:** 2026-09-14 (Prompt 11: analytics/consent audit complete)
-**Next review:** After Prompt 13 (payment boundary audit)
+**Updated:** 2026-09-14 (Prompt 13: payment boundary audit complete — 3 findings, 0 HIGH)
+**Prior assessment:** 2026-09-14 (Prompt 12: content integrity audit complete)
+**Next review:** After Prompt 14 (TemplateRenderer packaging assessment)

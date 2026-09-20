@@ -67,6 +67,12 @@ export default function SearchForm({ entries, locale }: SearchFormProps) {
 
   const hasQuery = terms.length > 0;
 
+  /** Prefix a path with the current locale for locale-aware routing. */
+  function localeUrl(path: string): string {
+    if (path === '/') return `/${locale}`;
+    return `/${locale}${path}`;
+  }
+
   return (
     <div>
       {/* Search input */}
@@ -115,7 +121,7 @@ export default function SearchForm({ entries, locale }: SearchFormProps) {
           {results.map((entry) => (
             <li key={entry.url} className="border-b border-gray-100 pb-4">
               <a
-                href={entry.url}
+                href={localeUrl(entry.url)}
                 className="text-lg font-semibold text-amber-700 hover:text-amber-800 hover:underline"
               >
                 {resolveLocale(entry.title, locale)}
@@ -158,7 +164,7 @@ export default function SearchForm({ entries, locale }: SearchFormProps) {
             {entries.map((entry) => (
               <li key={entry.url}>
                 <a
-                  href={entry.url}
+                  href={localeUrl(entry.url)}
                   className="text-amber-700 hover:text-amber-800 hover:underline font-medium"
                 >
                   {resolveLocale(entry.title, locale)}

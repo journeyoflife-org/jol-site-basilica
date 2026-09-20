@@ -9,7 +9,7 @@ import fixture from '@/fixtures/tenant.json';
 import { legalNav } from '@/lib/navigation';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
 
-const locale: SupportedLocale = (fixture.locale as SupportedLocale) ?? 'lt';
+const fixtureLocale: SupportedLocale = (fixture.locale as SupportedLocale) ?? 'lt';
 
 /**
  * Extract the first few Sunday mass times for the quick reference.
@@ -31,12 +31,12 @@ function getQuickMassTimes(): Array<{ day: string; time: string }> {
     .slice(0, 3);
 
   return sundayMasses.map((m) => ({
-    day: locale === 'en' && m.dayEn ? (m.dayEn as string) : (m.day as string),
+    day: fixtureLocale === 'en' && m.dayEn ? (m.dayEn as string) : (m.day as string),
     time: m.time as string,
   }));
 }
 
-export default function Footer() {
+export default function Footer({ locale = fixtureLocale }: { locale?: SupportedLocale } = {}) {
   const identity = fixture.identity;
   const massTimes = getQuickMassTimes();
   const currentYear = new Date().getFullYear();
@@ -110,7 +110,7 @@ export default function Footer() {
               {legalNav.map((item) => (
                 <li key={item.href}>
                   <a
-                    href={item.href}
+                    href={`/${locale}${item.href}`}
                     className="hover:text-amber-400 hover:underline"
                   >
                     {resolveLocale(item.label, locale)}

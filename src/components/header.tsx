@@ -16,9 +16,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { primaryNav, type NavItem } from '@/lib/navigation';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
-import fixture from '@/fixtures/tenant.json';
-
-const locale: SupportedLocale = (fixture.locale as SupportedLocale) ?? 'lt';
+import LanguageSwitcher from '@/components/language-switcher';
 
 /** Short name for the header (the full fixture.name is very long). */
 const shortName: Record<SupportedLocale, string> = {
@@ -43,8 +41,13 @@ function CrossIcon() {
   );
 }
 
-export default function Header() {
+interface HeaderProps {
+  locale: SupportedLocale;
+}
+
+export default function Header({ locale }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState('/');
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
 
@@ -55,6 +58,11 @@ export default function Header() {
 
   const toggleDropdown = useCallback((label: string) => {
     setOpenDropdown((prev) => (prev === label ? null : label));
+  }, []);
+
+  /** Track current pathname for language switcher. */
+  useEffect(() => {
+    setCurrentPath(window.location.pathname);
   }, []);
 
   /** Close dropdowns on Escape key. */
@@ -79,6 +87,9 @@ export default function Header() {
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, []);
+
+  /** Strip locale prefix from pathname for language switcher. */
+  const pathWithoutLocale = currentPath.replace(/^\/(lt|en|ru)/, '') || '/';
 
   function renderNavItem(item: NavItem) {
     const label = resolveLocale(item.label, locale);
@@ -121,7 +132,7 @@ export default function Header() {
               {item.children!.map((child) => (
                 <li key={resolveLocale(child.label, locale)}>
                   <a
-                    href={child.href}
+                    href={child.href === '#' ? '#' : child.href.startsWith('http') ? child.href : `/${locale}${child.href}`}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-amber-700"
                     onClick={() => setOpenDropdown(null)}
                   >
@@ -138,7 +149,7 @@ export default function Header() {
     return (
       <li key={label}>
         <a
-          href={item.href}
+          href={item.href === '#' ? '#' : item.href.startsWith('http') ? item.href : `/${locale}${item.href}`}
           className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-amber-700 rounded-md hover:bg-gray-50"
         >
           {label}
@@ -152,23 +163,25 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo + site name */}
-          <a href="/" className="flex items-center gap-2 shrink-0">
+          <a href={`/${locale}`} className="flex items-center gap-2 shrink-0">
             <CrossIcon />
             <span className="text-lg font-semibold text-gray-900 hidden sm:inline">
               {shortName[locale]}
             </span>
           </a>
 
-          {/* Desktop navigation */}
+          {/* Desktop navigation + language switcher */}
+          <div className="hidden md:flex items-center gap-2">
           <nav
             ref={navRef}
             aria-label="Pagrindinė navigacija"
-            className="hidden md:block"
           >
             <ul className="flex items-center gap-1">
               {primaryNav.map(renderNavItem)}
             </ul>
           </nav>
+          <LanguageSwitcher currentLocale={locale} currentPath={pathWithoutLocale} />
+          </div>
 
           {/* Mobile hamburger */}
           <button
@@ -229,7 +242,7 @@ export default function Header() {
                         {item.children!.map((child) => (
                           <li key={resolveLocale(child.label, locale)}>
                             <a
-                              href={child.href}
+                              href={child.href === '#' ? '#' : child.href.startsWith('http') ? child.href : `/${locale}${child.href}`}
                               className="block px-3 py-2 text-sm text-gray-600 rounded-md hover:bg-gray-50 hover:text-amber-700"
                               onClick={() => setMobileOpen(false)}
                             >
@@ -246,7 +259,7 @@ export default function Header() {
               return (
                 <li key={label}>
                   <a
-                    href={item.href}
+                    href={item.href === '#' ? '#' : item.href.startsWith('http') ? item.href : `/${locale}${item.href}`}
                     className="block px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50 hover:text-amber-700"
                     onClick={() => setMobileOpen(false)}
                   >
@@ -256,6 +269,10 @@ export default function Header() {
               );
             })}
           </ul>
+          {/* Language switcher for mobile */}
+          <div className="px-4 py-2 border-t border-gray-100 md:hidden">
+            <LanguageSwitcher currentLocale={locale} currentPath={pathWithoutLocale} />
+          </div>
         </nav>
       )}
     </header>

@@ -7,6 +7,7 @@
  * Emits JSON-LD via breadcrumbListEntity from @journeyoflife-org/seo.
  */
 
+import type { SupportedLocale } from '@/lib/resolve-locale';
 import { breadcrumbListEntity } from '@journeyoflife-org/seo';
 
 export interface BreadcrumbItem {
@@ -14,11 +15,36 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
+/**
+ * Prefix a breadcrumb href with the current locale.
+ * - '/' → '/lt'
+ * - '#' is treated as a section root (not linked, rendered as plain text)
+ * - '/path' → '/lt/path'
+ */
+function prefixHref(href: string, locale: SupportedLocale): string {
+  if (href === '#') return '#';
+  if (href === '/') return `/${locale}`;
+  return `/${locale}${href}`;
+}
+
+export default function Breadcrumb({
+  items,
+  locale,
+}: {
+  items: BreadcrumbItem[];
+  locale?: SupportedLocale;
+}) {
+  const resolvedItems = locale
+    ? items.map((item) => ({
+        ...item,
+        href: item.href ? prefixHref(item.href, locale) : undefined,
+      }))
+    : items;
+
   const jsonLd = breadcrumbListEntity(
-    items.map((item) => ({
+    resolvedItems.map((item) => ({
       name: item.label,
-      url: item.href ?? '',
+      url: item.href && item.href !== '#' ? item.href : '',
     })),
   );
 
@@ -30,8 +56,8 @@ export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
       />
       <nav aria-label="Breadcrumbs" className="bg-gray-50 border-b border-gray-200">
         <ol className="max-w-4xl mx-auto px-4 py-2 flex items-center space-x-2 text-sm text-gray-600">
-          {items.map((item, index) => {
-            const isLast = index === items.length - 1;
+          {resolvedItems.map((item, index) => {
+            const isLast = index === resolvedItems.length - 1;
             return (
               <li key={index} className="flex items-center">
                 {!isLast && item.href ? (

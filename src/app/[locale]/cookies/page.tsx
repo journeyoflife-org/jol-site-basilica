@@ -10,6 +10,8 @@ export function generateMetadata(_props: { params: Record<string, string> }): Me
   };
 }
 
+export const dynamic = 'force-static';
+
 export default function CookiesPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const tenantName = resolveLocale(fixture.name, locale);

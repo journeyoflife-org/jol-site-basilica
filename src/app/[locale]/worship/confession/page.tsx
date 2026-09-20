@@ -46,6 +46,8 @@ interface SacramentEntry {
   requirements?: { lt: string; en?: string; ru?: string };
 }
 
+export const dynamic = 'force-static';
+
 export default function ConfessionPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const homePage = fixture.pages[0];
@@ -87,7 +89,7 @@ export default function ConfessionPage({ params }: { params: Record<string, stri
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

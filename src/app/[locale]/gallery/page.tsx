@@ -53,6 +53,8 @@ interface GalleryImage {
   caption?: { lt: string; en?: string; ru?: string };
 }
 
+export const dynamic = 'force-static';
+
 export default function GalleryPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const homePage = fixture.pages[0];
@@ -80,7 +82,7 @@ export default function GalleryPage({ params }: { params: Record<string, string>
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

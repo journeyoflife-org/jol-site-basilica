@@ -44,6 +44,8 @@ interface ContentBlock {
   [key: string]: unknown;
 }
 
+export const dynamic = 'force-static';
+
 export default function HistoryPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const homePage = fixture.pages[0];
@@ -74,7 +76,7 @@ export default function HistoryPage({ params }: { params: Record<string, string>
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

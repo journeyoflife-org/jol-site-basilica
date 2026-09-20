@@ -36,6 +36,8 @@ export function generateMetadata({ params }: { params: Record<string, string> })
   };
 }
 
+export const dynamic = 'force-static';
+
 export default function SearchPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const breadcrumbItems = [
@@ -50,7 +52,7 @@ export default function SearchPage({ params }: { params: Record<string, string> 
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
 
       <h1 className="text-2xl font-bold mb-6">
         {resolveLocale(

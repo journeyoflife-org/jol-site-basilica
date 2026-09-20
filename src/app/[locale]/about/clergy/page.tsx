@@ -50,6 +50,8 @@ interface ClergyRole {
   contact?: string;
 }
 
+export const dynamic = 'force-static';
+
 export default function ClergyPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const homePage = fixture.pages[0];
@@ -84,7 +86,7 @@ export default function ClergyPage({ params }: { params: Record<string, string> 
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

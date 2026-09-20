@@ -295,6 +295,8 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
   }
 }
 
+export const dynamic = 'force-static';
+
 export default function Home({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const homePage = fixture.pages[0];

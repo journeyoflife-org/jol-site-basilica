@@ -40,6 +40,8 @@ export function generateMetadata({ params }: { params: Record<string, string> })
   };
 }
 
+export const dynamic = 'force-static';
+
 export default function ResourcesPage({ params }: { params: Record<string, string> }) {
   const locale = resolvePageLocale(params);
   const breadcrumbItems = [
@@ -61,7 +63,7 @@ export default function ResourcesPage({ params }: { params: Record<string, strin
 
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb locale={locale} items={breadcrumbItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

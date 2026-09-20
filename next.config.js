@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Standalone output for Docker deployment (self-hosted)
+  output: 'standalone',
   // Tenant resolution via X-Tenant header or subdomain
   async headers() {
     return [

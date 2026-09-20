@@ -28,6 +28,7 @@ import fixture from '@/fixtures/tenant.json';
 import { resolveLocale, type SupportedLocale } from '@/lib/resolve-locale';
 import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
 import TrackedLink from '@/components/tracked-link';
+import ScheduleTable from '@/components/schedule-table';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -92,26 +93,11 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
 
     case 'massSchedule':
       return (
-        <section id="mass-schedule" className="py-12 px-4" aria-label={h(block.heading)}>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">{h(block.heading)}</h2>
-            <div className="space-y-3">
-              {(block.masses as Array<Record<string, unknown>>).map((mass, i) => (
-                <div key={i} className="flex justify-between items-center p-4 bg-white rounded shadow-sm">
-                  <div>
-                    <span className="font-medium">{locale === 'en' && mass.dayEn ? mass.dayEn as string : mass.day as string}</span>
-                    <span className="ml-3 text-gray-600">{mass.time as string}</span>
-                  </div>
-                  {(mass.notes as { lt: string; en?: string; ru?: string } | undefined) && (
-                    <span className="text-sm text-gray-500">
-                      {h(mass.notes as { lt: string; en?: string; ru?: string })}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ScheduleTable
+          masses={block.masses as Array<{ day: string; dayEn?: string; time: string; startDate: string; language?: string; notes?: { lt: string; en?: string; ru?: string } }>}
+          locale={locale}
+          heading={h(block.heading)}
+        />
       );
 
     case 'keyValue':

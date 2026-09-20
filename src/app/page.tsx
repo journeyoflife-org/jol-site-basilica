@@ -375,33 +375,10 @@ export default function Home() {
         />
       )}
 
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="px-4 py-3 bg-white border-b">
-        <ol className="max-w-4xl mx-auto flex items-center space-x-2 text-sm text-gray-500">
-          <li>
-            <a href="/" className="hover:text-amber-600">
-              {resolveLocale({ lt: 'Pradžia', en: 'Home', ru: 'Главная' }, locale)}
-            </a>
-          </li>
-        </ol>
-      </nav>
-
       {/* Content blocks — wireframe reading order */}
       {blocks.map((block, i) => (
         <BlockRenderer key={i} block={block} locale={locale} />
       ))}
-
-      {/* Footer */}
-      <footer className="py-8 px-4 bg-gray-900 text-gray-300 text-center text-sm">
-        <p>&copy; {new Date().getFullYear()} {resolveLocale(fixture.name, locale)}</p>
-        <p className="mt-2">
-          <a href="/privacy" className="hover:text-white">{resolveLocale({ lt: 'Privatumas', en: 'Privacy', ru: 'Конфиденциальность' }, locale)}</a>
-          {' · '}
-          <a href="/cookies" className="hover:text-white">{resolveLocale({ lt: 'Slapukai', en: 'Cookies', ru: 'Cookies' }, locale)}</a>
-          {' · '}
-          <a href="/accessibility-statement" className="hover:text-white">{resolveLocale({ lt: 'Prieinamumas', en: 'Accessibility', ru: 'Доступность' }, locale)}</a>
-        </p>
-      </footer>
     </>
   );
 }

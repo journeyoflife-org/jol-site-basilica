@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 /**
  * Root layout — consumed by all pages in this vertical.
@@ -30,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="lt">
-      <body>
+      <body className="flex flex-col min-h-screen">
         {/* DS-A11Y-07: Skip navigation link */}
         <a
           href="#main-content"
@@ -38,7 +40,11 @@ export default function RootLayout({
         >
           Pereiti prie pagrindinio turinio
         </a>
-        <main id="main-content">{children}</main>
+        <Header />
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

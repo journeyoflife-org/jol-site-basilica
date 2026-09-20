@@ -38,3 +38,12 @@ coverage/
 # Secrets (never commit real values)
 secrets/encrypted/**/*.yaml
 !secrets/encrypted/**/.gitkeep
+
+# Vercel CLI deployment state and disposable tooling.
+# .vercel/ holds the project/link id; .vercel-tmp/ holds a local CLI install
+# and login logs. Neither belongs in the governed tree.
+.vercel/
+.vercel-tmp/
+
+# Next.js auto-generated
+next-env.d.ts

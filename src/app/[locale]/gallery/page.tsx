@@ -9,6 +9,7 @@
  */
 
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import fixture from '@/fixtures/tenant.json';
 import { resolveLocale } from '@/lib/resolve-locale';
 import { resolvePageLocale } from '@/lib/locale-context';
@@ -107,7 +108,7 @@ export default function GalleryPage({ params }: { params: Record<string, string>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {images.map((img, i) => (
               <figure key={i} className="overflow-hidden rounded-lg shadow-sm bg-white">
-                <img
+                <Image
                   src={img.src}
                   alt={resolveLocale(img.alt, locale)}
                   width={img.width}

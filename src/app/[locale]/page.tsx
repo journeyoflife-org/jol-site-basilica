@@ -30,6 +30,7 @@ import { resolvePageLocale } from '@/lib/locale-context';
 import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
 import TrackedLink from '@/components/tracked-link';
 import ScheduleTable from '@/components/schedule-table';
+import Image from 'next/image';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -201,7 +202,7 @@ function BlockRenderer({ block, locale }: { block: ContentBlock; locale: Support
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {(block.images as Array<Record<string, unknown>>).map((img, i) => (
                 <figure key={i} className="overflow-hidden rounded-lg shadow-sm">
-                  <img
+                  <Image
                     src={img.src as string}
                     alt={h(img.alt as { lt: string; en?: string; ru?: string })}
                     width={img.width as number}

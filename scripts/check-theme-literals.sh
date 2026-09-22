@@ -26,17 +26,19 @@ cd "$REPO_ROOT"
 # Component and page source directories in scope for this gate.
 SCAN_TARGETS=(src/app src/components)
 
+# Denomination alternation for logic-position patterns.
+DENOMINATIONS='(catholic|orthodox|protestant|greek.catholic|lutheran|methodist|baptist)'
+
 # Patterns that indicate theme/vertical logic is being defined locally
-# instead of being consumed from @journeyoflife-org/* platform packages
+# instead of being consumed from @journeyoflife-org/* platform packages.
+# Narrowed to logic positions (comparisons, switch cases, object values) to
+# avoid false positives on content strings, metadata descriptions, and
+# DS-THEME-01-sanctioned data patterns like preciseCatholic: true.
 PATTERNS=(
-  # Denomination literals in component code
-  'catholic'
-  'orthodox'
-  'protestant'
-  'greek.catholic'
-  'lutheran'
-  'methodist'
-  'baptist'
+  # Denomination string literals in logic positions (comparisons, cases, object values).
+  # Excludes content strings, metadata descriptions, and boolean flags.
+  "(===|!==|case)[[:space:]]*[\"']${DENOMINATIONS}[\"']"
+  ":[[:space:]]*[\"']${DENOMINATIONS}[\"'][[:space:]]*[,;})]"
   # Country literals used as branching logic (not in data/fixture files)
   "country === 'lt'"
   'country === "lt"'
@@ -101,7 +103,8 @@ selftest_case() {
   fi
 }
 
-selftest_case 'denomination literal' "export const d = 'catholic';" 'catholic'
+selftest_case 'denomination comparison' "if (kind === 'catholic') { /* branch */ }" "(===|!==|case)[[:space:]]*[\"']${DENOMINATIONS}[\"']"
+selftest_case 'denomination object value' "const config = { kind: 'catholic' };" ":[[:space:]]*[\"']${DENOMINATIONS}[\"'][[:space:]]*[,;})]"
 selftest_case 'country branch' "if (country === 'lt') { /* branch */ }" "country === 'lt'"
 selftest_case 'hardcoded hex accent' 'export const accent = "#C8A24A";' '#[0-9a-fA-F]{6}'
 

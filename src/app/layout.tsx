@@ -7,6 +7,7 @@ import {
   DEFAULT_LOCALE,
   type SupportedLocale,
 } from '@/lib/resolve-locale';
+import { SITE_URL, ALLOW_INDEXING } from '@/lib/site-config';
 
 /**
  * Root layout — consumed by all pages in this vertical.
@@ -18,16 +19,22 @@ import {
  */
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Basilica of Vilnius Cathedral | Journey of Life',
   description: 'Basilica of Vilnius Cathedral — Journey of Life Catholic Church platform',
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-    },
-  },
+  // Indexing is off by default; ALLOW_INDEXING flips every layer together (see
+  // src/lib/site-config.ts). Googlebot is called out explicitly so the directive
+  // is unambiguous to Google's crawler.
+  robots: ALLOW_INDEXING
+    ? { index: true, follow: true }
+    : {
+        index: false,
+        follow: false,
+        googleBot: {
+          index: false,
+          follow: false,
+        },
+      },
 };
 
 export default function RootLayout({

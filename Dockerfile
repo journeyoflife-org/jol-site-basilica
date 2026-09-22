@@ -36,6 +36,16 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
+# Build-time configuration supplied by the deploy workflow (--build-args).
+# These MUST be declared as ARG or Docker silently drops the build-args.
+# NEXT_PUBLIC_SITE_URL is inlined into the client bundle and baked into
+# canonical/hreflang/sitemap/robots at build time; ALLOW_INDEXING gates the
+# noindex layers (see src/lib/site-config.ts).
+ARG NEXT_PUBLIC_SITE_URL
+ARG ALLOW_INDEXING
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV ALLOW_INDEXING=$ALLOW_INDEXING
+
 # Build Next.js application
 RUN pnpm build
 

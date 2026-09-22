@@ -31,8 +31,10 @@ import { churchEntity, massEventEntity, breadcrumbListEntity } from '@journeyofl
 import TrackedLink from '@/components/tracked-link';
 import ScheduleTable from '@/components/schedule-table';
 import Image from 'next/image';
+import { SITE_URL } from '@/lib/site-config';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+// Single source of truth for the canonical origin (see src/lib/site-config.ts).
+const BASE_URL = SITE_URL;
 
 /**
  * Parse a free-form address string into structured PostalAddress fields.

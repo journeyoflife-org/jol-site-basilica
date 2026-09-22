@@ -59,3 +59,4 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
+            ALLOW_INDEXING=${{ vars.ALLOW_INDEXING }}

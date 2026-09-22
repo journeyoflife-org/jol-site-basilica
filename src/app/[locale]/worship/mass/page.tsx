@@ -14,6 +14,7 @@ import fixture from '@/fixtures/tenant.json';
 import { resolveLocale } from '@/lib/resolve-locale';
 import { resolvePageLocale } from '@/lib/locale-context';
 import { massEventEntity, breadcrumbListEntity } from '@journeyoflife-org/seo';
+import { nextOccurrence, nextOccurrences } from '@/lib/mass-recurrence';
 import ScheduleTable from '@/components/schedule-table';
 import Breadcrumb from '@/components/breadcrumb';
 
@@ -81,7 +82,8 @@ export default function MassSchedulePage({ params }: { params: Record<string, st
     day: string;
     dayEn?: string;
     time: string;
-    startDate: string;
+    dayOfWeek?: number;
+    daysOfWeek?: number[];
     language?: string;
     notes?: { lt: string; en?: string; ru?: string };
   }>;
@@ -89,14 +91,33 @@ export default function MassSchedulePage({ params }: { params: Record<string, st
   const address = parseAddress(fixture.identity?.address ?? '');
   const locationName = resolveLocale(fixture.name, locale);
 
-  // Event JSON-LD for each mass
-  const massEvents = masses.map((m) =>
-    massEventEntity({
-      name: `Šv. Mišios — ${m.dayEn ?? m.day} ${m.time}`,
-      startDate: m.startDate,
-      location: { name: locationName, address },
-    }),
-  );
+  // Event JSON-LD for each mass — compute next occurrence from recurrence
+  const massEvents: ReturnType<typeof massEventEntity>[] = [];
+  for (const m of masses) {
+    if (m.dayOfWeek !== undefined) {
+      // Single day-of-week recurrence (e.g., Sunday)
+      const startDate = nextOccurrence(m.dayOfWeek, m.time);
+      massEvents.push(
+        massEventEntity({
+          name: `Šv. Mišios — ${m.dayEn ?? m.day} ${m.time}`,
+          startDate,
+          location: { name: locationName, address },
+        }),
+      );
+    } else if (m.daysOfWeek !== undefined) {
+      // Multiple day-of-week recurrence (e.g., weekdays + Saturday)
+      const startDates = nextOccurrences(m.daysOfWeek, m.time);
+      for (const startDate of startDates) {
+        massEvents.push(
+          massEventEntity({
+            name: `Šv. Mišios — ${m.dayEn ?? m.day} ${m.time}`,
+            startDate,
+            location: { name: locationName, address },
+          }),
+        );
+      }
+    }
+  }
 
   // Breadcrumb
   const breadcrumbItems = [

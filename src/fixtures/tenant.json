@@ -53,16 +53,16 @@
             "ru": "Расписание Месс"
           },
           "masses": [
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "08:00", "startDate": "2026-09-13T08:00:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "09:00", "startDate": "2026-09-13T09:00:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "10:00", "startDate": "2026-09-13T10:00:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "11:15", "startDate": "2026-09-13T11:15:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "12:30", "startDate": "2026-09-13T12:30:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "17:30", "startDate": "2026-09-13T17:30:00", "language": "lt" },
-            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "18:30", "startDate": "2026-09-13T18:30:00", "language": "lt" },
-            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "08:00", "startDate": "2026-09-14T08:00:00", "language": "lt" },
-            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "12:30", "startDate": "2026-09-14T12:30:00", "language": "lt" },
-            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "17:30", "startDate": "2026-09-14T17:30:00", "language": "lt" }
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "08:00", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "09:00", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "10:00", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "11:15", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "12:30", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "17:30", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Sekmadienis", "dayEn": "Sunday", "time": "18:30", "dayOfWeek": 7, "language": "lt" },
+            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "08:00", "daysOfWeek": [1, 2, 3, 4, 5, 6], "language": "lt" },
+            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "12:30", "daysOfWeek": [1, 2, 3, 4, 5, 6], "language": "lt" },
+            { "day": "Šiokiadieniais ir šeštadieniais", "dayEn": "Weekdays and Saturday", "time": "17:30", "daysOfWeek": [1, 2, 3, 4, 5, 6], "language": "lt" }
           ]
         },
         {

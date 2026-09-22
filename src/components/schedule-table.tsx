@@ -14,7 +14,9 @@ export interface MassEntry {
   day: string;
   dayEn?: string;
   time: string;
-  startDate: string;
+  startDate?: string;
+  dayOfWeek?: number;
+  daysOfWeek?: number[];
   language?: string;
   notes?: LocalizedText;
 }
@@ -56,9 +58,9 @@ export default function ScheduleTable({ masses, locale, heading }: ScheduleTable
                 className="flex flex-wrap justify-between items-center gap-2 p-4 bg-white rounded-lg shadow-sm border border-gray-100"
               >
                 <div className="flex items-center gap-3">
-                  <time dateTime={mass.startDate} className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900">
                     {dayLabel}
-                  </time>
+                  </span>
                   <time
                     dateTime={`1900-01-01T${toTimeToken(mass.time)}:00`}
                     className="text-amber-700 font-semibold tabular-nums"
